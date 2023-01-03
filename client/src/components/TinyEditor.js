@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Editor } from "@tinymce/tinymce-react";
 console.log(process.env);
+
 function TinyEditor() {
   const editorRef = useRef(null);
   const log = () => {
@@ -13,8 +14,14 @@ function TinyEditor() {
   return (
     <>
       <Editor
+        onSubmit={(e) => console.log(e)}
+        onChange={(e) => console.log(e.target.getContent())}
+        onSaveContent={(e) => console.log(e)}
         apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-        onInit={(evt, editor) => (editorRef.current = editor)}
+        onInit={(evt, editor) => {
+          console.log(evt);
+          editorRef.current = editor;
+        }}
         initialValue="<p>This is the initial content of the editor.</p>"
         init={{
           height: 500,
