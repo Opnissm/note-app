@@ -1,31 +1,42 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Editor } from "@tinymce/tinymce-react";
-console.log(process.env);
 
 function TinyEditor() {
+  const [contentString, setContentString] = useState("");
   const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
 
+  // if (editorRef.current) {
+  //   console.log(editorRef.current.getContent());
+
+  // }
+
+  useEffect(() => {
+    // console.log(editorRef.current?.getContent());
+    // console.log("hey", editorRef.current.getContent());
+    // setContentString(editorRef.current.getContent());
+  }, [editorRef.current, editorRef.current?.getContent()]);
   return (
     <>
       <Editor
-        onSubmit={(e) => console.log(e)}
-        onChange={(e) => console.log(e.target.getContent())}
-        onSaveContent={(e) => console.log(e)}
+        // onSubmit={(e) => console.log(e)}
+        // onChange={(e) => console.log(e.target.getContent())}
+        // onSaveContent={(e) => console.log(e)}
+        // onSetContent={() => console.log("hey")}
+        // onCommentChange={() => console.log("asd")}
+        // onChange={() => console.log("execute")}
+        onEditorChange={(e) => console.log(e)}
         apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
         onInit={(evt, editor) => {
           console.log(evt);
           editorRef.current = editor;
         }}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        // initialValue={contentString}
         init={{
           height: 500,
+          width: "100%",
           menubar: false,
+          resize: false,
           plugins: [
             "advlist",
             "autolink",
@@ -45,6 +56,7 @@ function TinyEditor() {
             "code",
             "help",
             "wordcount",
+            // "media",
           ],
           toolbar:
             "undo redo | blocks | " +
@@ -55,7 +67,7 @@ function TinyEditor() {
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
         }}
       />
-      <button onClick={log}>Log editor content</button>
+      {/* <button onClick={log}>Log editor content</button> */}
     </>
   );
 }
