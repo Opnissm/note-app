@@ -5,7 +5,7 @@ import axios from "axios";
 import FormWrapper from "./components/FormWrapper";
 import NavigateFormWrapper from "./components/NavigateFormWrapper";
 
-function UnauthenticatedApp() {
+function UnauthenticatedPage() {
   const [formDisplay, setFormDisplay] = useState("login");
 
   function handleFormDisplay(formName) {
@@ -43,4 +43,4 @@ function UnauthenticatedApp() {
   );
 }
 
-export default UnauthenticatedApp;
+export default UnauthenticatedPage;

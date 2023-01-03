@@ -6,7 +6,7 @@ import NoteList from "./components/NoteList";
 import { useAuth } from "./context/auth-context";
 import TinyEditor from "./components/TinyEditor";
 
-function AuthenticatedApp() {
+function AuthenticatedPage() {
   const { auth } = useAuth();
   const [notes, setNotes] = useState([]);
 
@@ -28,4 +28,4 @@ function AuthenticatedApp() {
   );
 }
 
-export default AuthenticatedApp;
+export default AuthenticatedPage;

@@ -1,14 +1,7 @@
-import { ContentState, convertToRaw, EditorState } from "draft-js";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { Editor } from "react-draft-wysiwyg";
-
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Navigate } from "react-router-dom";
-import AuthenticatedApp from "./AuthenticatedApp";
 
 import { AuthProvider, useAuth } from "./context/auth-context";
-import UnauthenticatedApp from "./UnauthenticatedApp";
+import UnauthenticatedPage from "./UnauthenticatedPage";
 // const content = {
 //   entityMap: {},
 //   blocks: [
@@ -34,7 +27,7 @@ function App() {
       {auth.isAuthenticated ? (
         <Navigate to="/note" replace={true} />
       ) : (
-        <UnauthenticatedApp />
+        <UnauthenticatedPage />
       )}
     </div>
   );
