@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Login from "./components/Login";
+import Login from "./components/Form/Login";
 import Logo from "./assets/logo.png";
 import axios from "axios";
-import FormWrapper from "./components/FormWrapper";
-import NavigateFormWrapper from "./components/NavigateFormWrapper";
+import FormWrapper from "./components/Form/FormWrapper";
+import NavigateFormWrapper from "./components/Form/NavigateFormWrapper";
 
 function UnauthenticatedPage() {
   const [formDisplay, setFormDisplay] = useState("login");
@@ -21,8 +21,8 @@ function UnauthenticatedPage() {
   return (
     <div className="flex w-[70vw] max-w-2xl mx-auto rounded-md pt-12 ">
       <div className="flex-1">
-        <div className="flex flex-col space-y-2">
-          <h1 className="text-3x">
+        <div className="flex flex-col space-y-1">
+          <h1 className="text-3xl">
             Make your <span className="text-amber-400">notes</span> accessible
             anytime, anywhere
             <img src={Logo} className="w-10 inline ml-2" alt="Notes logo" />

@@ -2,8 +2,12 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 
 import { Editor } from "@tinymce/tinymce-react";
 
+import axios from "../axiosConfig/axiosConfig";
+
 function TinyEditor() {
-  const [contentString, setContentString] = useState("");
+  const [contentString, setContentString] = useState(
+    "<h1>llloooooool</h1><p>asdsadsad<strong>asdsa</strong></p>"
+  );
   const editorRef = useRef(null);
 
   // if (editorRef.current) {
@@ -12,6 +16,7 @@ function TinyEditor() {
   // }
 
   useEffect(() => {
+    axios.post("/register", {}).then((res) => console.log(res));
     // console.log(editorRef.current?.getContent());
     // console.log("hey", editorRef.current.getContent());
     // setContentString(editorRef.current.getContent());
@@ -31,9 +36,9 @@ function TinyEditor() {
           console.log(evt);
           editorRef.current = editor;
         }}
-        // initialValue={contentString}
+        initialValue={contentString}
         init={{
-          height: 500,
+          height: "100%",
           width: "100%",
           menubar: false,
           resize: false,

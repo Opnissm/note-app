@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import axios from "../axiosConfig/axiosConfig.js";
-import { useAuth } from "../context/auth-context.js";
+import axios from "../../axiosConfig/axiosConfig.js";
+import { useAuth } from "../../context/auth-context.js";
 
 function Login() {
   const { auth, setAuth } = useAuth();
