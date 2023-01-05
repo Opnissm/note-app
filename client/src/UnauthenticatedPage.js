@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Login from "./components/Form/Login";
 import Logo from "./assets/logo.png";
 import axios from "axios";
@@ -18,8 +18,9 @@ function UnauthenticatedPage() {
     //   .then(({ data }) => console.log(data))
     //   .catch((err) => console.log(err));
   }, []);
+
   return (
-    <div className="flex w-[70vw] max-w-2xl mx-auto rounded-md pt-12 ">
+    <div className="flex w-[70vw] max-w-2xl mx-auto rounded-md pt-12">
       <div className="flex-1">
         <div className="flex flex-col space-y-1">
           <h1 className="text-3xl">
@@ -32,7 +33,7 @@ function UnauthenticatedPage() {
           </p>
         </div>
       </div>
-      <div className="flex-1  w-[90%] mx-auto space-y-2">
+      <div className="flex-1 w-[90%] mx-auto space-y-2">
         <FormWrapper formDisplay={formDisplay} />
         <NavigateFormWrapper
           formDisplay={formDisplay}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
 import axios from "../../axiosConfig/axiosConfig.js";
@@ -12,18 +12,24 @@ function Login() {
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmmiting] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
+  const usernameFieldRef = useRef(null);
 
+  useEffect(() => {
+    usernameFieldRef.current.focus();
+  }, [usernameFieldRef.current]);
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!username || !password) {
+      return setErrorMsg("Username and Password are required");
+    }
     setIsSubmmiting(true);
     const { data } = await axios.post("/login", {
       username,
       password,
     });
-
     const { errorMsg, token, user } = data;
-    setIsSubmmiting(false);
 
+    setIsSubmmiting(false);
     if (errorMsg) return setErrorMsg(errorMsg);
 
     setCookie("token", token);
@@ -32,10 +38,11 @@ function Login() {
 
     // console.log(username, password, data);
   }
-  console.log(cookies);
+
   return (
     <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
       <input
+        ref={usernameFieldRef}
         type="text"
         placeholder="Username"
         className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
