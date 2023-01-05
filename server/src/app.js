@@ -3,9 +3,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
-// const mongoConnect = require("./db/mongodb");
 const userRouter = require("./routes/user.js");
-
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
@@ -24,27 +22,13 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(userRouter);
 
-// function main() {
-//   const token = jwt.sign({ _id: "abc123" }, "helloworld");
-
-//   const data = jwt.verify(token, "helloworld");
-
-//   console.log(data);
-//   console.log(token);
-//   mongoConnect(() => {
-//     app.listen(port, () => {
-//       console.log("server running");
-//     });
-//   });
-// }
-// main();
 mongoose.set("strictQuery", false);
 
 mongoose
-  .connect(uri, { useNewUrlParser: true })
-  .then((result) =>
+  .connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then((result) => {
     app.listen(port, () => {
       console.log("server running");
-    })
-  )
+    });
+  })
   .catch((err) => console.log(err));

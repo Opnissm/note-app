@@ -17,15 +17,16 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    notes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Note",
+      },
+    ],
   },
   {
     timestamps: true,
   }
 );
 
-const User = mongoose.model("User", userSchema);
-
-/* 
-g  
-*/
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);

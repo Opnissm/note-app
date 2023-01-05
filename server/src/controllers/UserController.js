@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.js");
 
 const saltRounds = 10;
-// response { errorMsg: string | null }
+
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
 
@@ -17,38 +17,105 @@ exports.login = async (req, res, next) => {
 
   const {
     password: storedHashPassword,
+    email: emailInDb,
     _id: userId,
-    username: usernameinDb,
+    username: usernameInDb,
   } = user;
 
   const isMatch = await bcrypt.compare(password, storedHashPassword);
 
   if (!isMatch) return res.json({ errorMsg: "Incorrect password" });
 
-  const token = generateJWT({ userId });
+  const token = generateJWT({
+    userId,
+    username: usernameInDb,
+    email: emailInDb,
+  });
 
-  return res.json({ errorMsg: null, token, user: { username: usernameinDb } });
-
-  // res.send("Token sent");
-  // res.json({ errorMsg: null });
-
-  // return
+  return res.json({
+    errorMsg: null,
+    token,
+    user: { username: usernameInDb, id: userId },
+  });
 };
 
-exports.register = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  // await bcrypt.hash("passpass123", saltRounds).then(function (hash) {
-  //   const user = new User({
-  //     username: "useruser123",
-  //     email: "useruser123@gmail.com",
-  //     password: hash,
-  //   });
+  let usernameErr = null;
+  let passwordErr = null;
+  let emailErr = null;
 
-  //   user.save();
-  //   return res.json({ msg: "yes" });
-  //   // Store hash in your password DB.
-  // });
+  if (!username) {
+    usernameErr = "Username is required";
+  }
+
+  if (!email) {
+    emailErr = "Email is required";
+  }
+
+  if (!password) {
+    passwordErr = "Password is required";
+  } else if (password.length <= 7) {
+    passwordErr = "Password should be at least 8 characters long";
+  }
+
+  // check if any of the error variable has value
+  if (usernameErr || emailErr || passwordErr) {
+    return res.json({
+      formErrors: { usernameErr, passwordErr, emailErr },
+      isSuccessful: false,
+    });
+  }
+
+  const usernameExist = await User.findOne({ username });
+
+  if (usernameExist) {
+    usernameErr = "Username is already taken";
+  }
+
+  const emailExist = await User.findOne({ email });
+
+  if (emailExist) {
+    emailErr = "Email is already taken";
+  }
+
+  // check if error variable has value
+  if (usernameErr || emailErr) {
+    return res.json({
+      formErrors: { usernameErr, passwordErr, emailErr },
+      isSuccessful: false,
+    });
+  }
+
+  const hashPassword = await bcrypt.hash(password, saltRounds);
+
+  const newUser = new User({ username, email, password: hashPassword });
+
+  newUser.save();
+
+  const {
+    username: newUserUsername,
+    email: newUserEmail,
+    _id: userId,
+  } = newUser;
+
+  const token = generateJWT({
+    userId,
+    email: newUserEmail,
+    username: newUserUsername,
+  });
+
+  return res.json({
+    formErrors: { usernameErr, passwordErr, emailErr },
+    token,
+    isSuccessful: true,
+    user: {
+      userId,
+      username: newUserUsername,
+      email: newUserEmail,
+    },
+  });
 };
 exports.auth = async (req, res, next) => {
   try {
@@ -64,7 +131,6 @@ exports.auth = async (req, res, next) => {
 
     const { username } = user;
 
-    // to be fixed
     return res.json({ user: { username }, authenticated: true });
   } catch (err) {
     return res.json({ msg: "something wrong on the server" });
