@@ -35,7 +35,7 @@ exports.login = async (req, res, next) => {
   return res.json({
     errorMsg: null,
     token,
-    user: { username: usernameInDb, id: userId },
+    user: { username: usernameInDb, email: emailInDb, id: userId },
   });
 };
 
@@ -87,35 +87,38 @@ exports.signup = async (req, res, next) => {
       isSuccessful: false,
     });
   }
+  try {
+    const hashPassword = await bcrypt.hash(password, saltRounds);
 
-  const hashPassword = await bcrypt.hash(password, saltRounds);
+    const newUser = new User({ username, email, password: hashPassword });
 
-  const newUser = new User({ username, email, password: hashPassword });
+    newUser.save();
 
-  newUser.save();
-
-  const {
-    username: newUserUsername,
-    email: newUserEmail,
-    _id: userId,
-  } = newUser;
-
-  const token = generateJWT({
-    userId,
-    email: newUserEmail,
-    username: newUserUsername,
-  });
-
-  return res.json({
-    formErrors: { usernameErr, passwordErr, emailErr },
-    token,
-    isSuccessful: true,
-    user: {
-      userId,
+    const {
       username: newUserUsername,
       email: newUserEmail,
-    },
-  });
+      _id: userId,
+    } = newUser;
+
+    const token = generateJWT({
+      userId,
+      email: newUserEmail,
+      username: newUserUsername,
+    });
+
+    return res.json({
+      formErrors: { usernameErr, passwordErr, emailErr },
+      token,
+      isSuccessful: true,
+      user: {
+        userId,
+        username: newUserUsername,
+        email: newUserEmail,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
 exports.auth = async (req, res, next) => {
   try {
@@ -129,9 +132,9 @@ exports.auth = async (req, res, next) => {
 
     const user = await User.findById({ _id: valid.userId });
 
-    const { username } = user;
+    const { username, email, _id: userId } = user;
 
-    return res.json({ user: { username }, authenticated: true });
+    return res.json({ user: { username, email, userId }, authenticated: true });
   } catch (err) {
     return res.json({ msg: "something wrong on the server" });
   }
