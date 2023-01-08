@@ -5,38 +5,45 @@ import { Editor } from "@tinymce/tinymce-react";
 import axios from "../axiosConfig/axiosConfig";
 
 function TinyEditor() {
-  const [contentString, setContentString] = useState(
+  const initialContent = useState(
     "<h1>llloooooool</h1><p>asdsadsad<strong>asdsa</strong></p>"
-  );
+  )[0];
+
+  const [contentChange, setContentChange] = useState(initialContent);
+  const [isEditorLoading, setIsEditorLoading] = useState(true);
+  const [isSaving, setIsSaving] = useState(false);
   const editorRef = useRef(null);
 
-  // if (editorRef.current) {
-  //   console.log(editorRef.current.getContent());
-
-  // }
-
   useEffect(() => {
-    axios.post("/register", {}).then((res) => console.log(res));
-    // console.log(editorRef.current?.getContent());
-    // console.log("hey", editorRef.current.getContent());
-    // setContentString(editorRef.current.getContent());
-  }, [editorRef.current, editorRef.current?.getContent()]);
+    setIsSaving(true);
+    // user typing loading when stop for 2 secods execute post request
+
+    const timeoutId = setTimeout(() => {
+      console.log(contentChange);
+      setIsSaving(false);
+    }, [2000]);
+
+    return () => clearTimeout(timeoutId);
+  }, [contentChange]);
+
+  // useEffect(() => {
+  //   // console.log(editorRef.current?.getContent());
+  //   // console.log("hey", editorRef.current.getContent());
+  //   // setContentString(editorRef.current.getContent());
+  // }, [editorRef.current, editorRef.current?.getContent()]);
+
   return (
     <>
+      {isEditorLoading && <h1> Loading...</h1>}
       <Editor
-        // onSubmit={(e) => console.log(e)}
-        // onChange={(e) => console.log(e.target.getContent())}
-        // onSaveContent={(e) => console.log(e)}
-        // onSetContent={() => console.log("hey")}
-        // onCommentChange={() => console.log("asd")}
-        // onChange={() => console.log("execute")}
-        onEditorChange={(e) => console.log(e)}
+        onEditorChange={(value) => setContentChange(value)}
         apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
         onInit={(evt, editor) => {
-          console.log(evt);
+          setIsEditorLoading(false);
+          console.log("asd");
           editorRef.current = editor;
         }}
-        initialValue={contentString}
+        initialValue={initialContent}
         init={{
           height: "100%",
           width: "100%",
@@ -61,18 +68,18 @@ function TinyEditor() {
             "code",
             "help",
             "wordcount",
-            // "media",
           ],
           toolbar:
-            "undo redo | blocks | " +
-            "bold italic forecolor | alignleft aligncenter " +
-            "alignright alignjustify | bullist numlist outdent indent | " +
-            "removeformat | help",
+            "undo redo  blocks  " +
+            "bold italic forecolor  alignleft aligncenter " +
+            "alignright alignjustify  bullist numlist outdent indent  " +
+            "removeformat  help",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } ",
+          // content_css: "./TinyMCE.css",
+          skin: "borderless",
         }}
       />
-      {/* <button onClick={log}>Log editor content</button> */}
     </>
   );
 }
