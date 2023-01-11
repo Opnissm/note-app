@@ -1,49 +1,53 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-
 import { Editor } from "@tinymce/tinymce-react";
-
+import React, { useEffect, useRef, useState } from "react";
+import { useOutletContext, useParams } from "react-router";
 import axios from "../axiosConfig/axiosConfig";
 
-function TinyEditor() {
-  const initialContent = useState(
-    "<h1>llloooooool</h1><p>asdsadsad<strong>asdsa</strong></p>"
-  )[0];
+// delayed saving
 
-  const [contentChange, setContentChange] = useState(initialContent);
+function TinyEditor({ noteContent, handleContentTypingStatus }) {
+  const [content, setContent] = useState(noteContent);
   const [isEditorLoading, setIsEditorLoading] = useState(true);
-  const [isSaving, setIsSaving] = useState(false);
-  const editorRef = useRef(null);
+  const { setNotes } = useOutletContext();
+  const noteIdRef = useRef(null);
+  const { noteId } = useParams();
 
   useEffect(() => {
-    setIsSaving(true);
-    // user typing loading when stop for 2 secods execute post request
+    if (noteIdRef.current !== noteId) {
+      handleContentTypingStatus("idle");
+      noteIdRef.current = noteId;
+      return;
+    }
 
+    // user typing loading when stop for 2 seconds execute post request
     const timeoutId = setTimeout(() => {
-      console.log(contentChange);
-      setIsSaving(false);
+      axios
+        .post("/notes", {
+          noteId,
+          content,
+        })
+        .then(({ data }) => setNotes({ data: data.notes, status: "resolved" }))
+        .catch((err) => console.log(err));
+      handleContentTypingStatus("resolved");
     }, [2000]);
-
     return () => clearTimeout(timeoutId);
-  }, [contentChange]);
-
-  // useEffect(() => {
-  //   // console.log(editorRef.current?.getContent());
-  //   // console.log("hey", editorRef.current.getContent());
-  //   // setContentString(editorRef.current.getContent());
-  // }, [editorRef.current, editorRef.current?.getContent()]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [content]);
 
   return (
     <>
-      {isEditorLoading && <h1> Loading...</h1>}
+      {isEditorLoading && <h1> Loading Editor....</h1>}
+
       <Editor
-        onEditorChange={(value) => setContentChange(value)}
         apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+        onDirty={() => handleContentTypingStatus("loading")}
+        onEditorChange={(value) => {
+          setContent(value);
+        }}
         onInit={(evt, editor) => {
           setIsEditorLoading(false);
-          console.log("asd");
-          editorRef.current = editor;
         }}
-        initialValue={initialContent}
+        initialValue={noteContent}
         init={{
           height: "100%",
           width: "100%",
@@ -68,6 +72,7 @@ function TinyEditor() {
             "code",
             "help",
             "wordcount",
+            "nonbreaking",
           ],
           toolbar:
             "undo redo  blocks  " +
@@ -76,7 +81,6 @@ function TinyEditor() {
             "removeformat  help",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } ",
-          // content_css: "./TinyMCE.css",
           skin: "borderless",
         }}
       />
