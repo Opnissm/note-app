@@ -1,22 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import axios from "../../axiosConfig/axiosConfig.js";
 import { useAuth } from "../../context/auth-context.js";
 
 function Login() {
-  const { auth, setAuth } = useAuth();
-  const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [, setCookie] = useCookies(["token"]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [isSubmitting, setIsSubmmiting] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const usernameFieldRef = useRef(null);
+  const { auth, setAuth } = useAuth();
 
   useEffect(() => {
     usernameFieldRef.current.focus();
-  }, [usernameFieldRef.current]);
+  }, []);
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (!username || !password) {
@@ -31,12 +31,12 @@ function Login() {
 
     setIsSubmmiting(false);
     if (errorMsg) return setErrorMsg(errorMsg);
-
     setCookie("token", token);
     setAuth({ user, isAuthenticated: true, status: "resolved" });
-    navigate("/note");
+  }
 
-    // console.log(username, password, data);
+  if (auth.isAuthenticated) {
+    return <Navigate to="/note" replace />;
   }
 
   return (
