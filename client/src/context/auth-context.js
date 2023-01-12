@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { Outlet } from "react-router-dom";
 import axios from "../axiosConfig/axiosConfig";
 
@@ -15,33 +16,39 @@ function AuthProvider() {
     status: "idle",
     isAuthenticated: false,
   });
+  const removeCookie = useCookies()[2];
 
-  const value = { auth, setAuth };
+  function logout() {
+    removeCookie(["token"]);
+    setAuth({ user: null, authenticated: false, status: "resolved" });
+  }
+
+  const value = { auth, setAuth, logout };
+
   useEffect(() => {
-    setAuth({ status: "loading" });
+    setAuth({ status: "loading", user: null, isAuthenticated: false });
     axios
-      .post("/auth")
+      .post("/auth", {}, { withCredentials: true })
       .then((res) => {
-        if (!res.data.authenticated)
+        console.log(res.data.authenticated);
+        if (!res.data.authenticated) {
           return setAuth({
             user: null,
             isAuthenticated: false,
             status: "resolved",
           });
+        }
 
         const { user } = res.data;
+
         return setAuth({ user, isAuthenticated: true, status: "resolved" });
       })
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(auth);
   return (
     <AuthContext.Provider value={value}>
-      {auth.status === "loading" ||
-        (auth.status === "idle" && <h1>Loading...</h1>)}
-
-      {auth.status === "resolved" && <Outlet />}
+      <Outlet />
     </AuthContext.Provider>
   );
 }
