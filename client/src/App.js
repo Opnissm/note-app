@@ -1,18 +1,26 @@
-import { Navigate } from "react-router-dom";
-
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import AuthenticatedPage from "./AuthenticatedPage";
+import MainContentWrapper from "./components/MainContentWrapper";
 import { AuthProvider, useAuth } from "./context/auth-context";
 import UnauthenticatedPage from "./UnauthenticatedPage";
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route element={<AuthProvider />}>
+      <Route path="/" element={<UnauthenticatedPage />} />
+      <Route path="/note" element={<AuthenticatedPage />}>
+        <Route path=":noteId" element={<MainContentWrapper />} />
+      </Route>
+    </Route>
+  )
+);
+
 function App() {
-  const { auth } = useAuth();
-  return (
-    <div className="w-screen h-screen bg-slate-50">
-      {auth.isAuthenticated ? (
-        <Navigate to="/note" replace={true} />
-      ) : (
-        <UnauthenticatedPage />
-      )}
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 export default App;
