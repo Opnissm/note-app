@@ -1,4 +1,3 @@
-const note = require("../models/note");
 const Note = require("../models/note");
 
 exports.getNotes = async (req, res, next) => {
@@ -18,7 +17,7 @@ exports.createNote = async (req, res, next) => {
       content: "",
       title: "Untitled",
     });
-    newNote.save();
+    await newNote.save();
 
     const notes = await Note.find({
       creator: req.user._id,
@@ -39,6 +38,7 @@ exports.updateNote = async (req, res, next) => {
         content: req.body.content,
       }
     );
+
     const updatedNotes = await Note.find({
       creator: req.user._id,
     });

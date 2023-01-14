@@ -8,7 +8,7 @@ exports.auth = async (req, res, next) => {
 
     if (!valid) throw new Error();
 
-    const user = await User.findById({
+    const user = await User.findOne({
       _id: valid.userId,
       username: valid.username,
       email: valid.email,
@@ -19,6 +19,6 @@ exports.auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    return res.json({ msg: "Not authenticated" });
+    return res.json({ errorMsg: "Not authenticated" });
   }
 };

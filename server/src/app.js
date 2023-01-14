@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const userRouter = require("./routes/user.js");
 const noteRouter = require("./routes/note.js");
 const cookieParser = require("cookie-parser");
+const note = require("./models/note.js");
 
 require("dotenv").config();
 

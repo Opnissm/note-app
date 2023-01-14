@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Note = require("../models/note.js");
 const User = require("../models/user.js");
 
 const saltRounds = 10;
@@ -42,7 +43,7 @@ exports.login = async (req, res, next) => {
 
     return res.json({
       token,
-      user: { username: usernameInDb, email: emailInDb, id: userId },
+      user: { username: usernameInDb, email: emailInDb, userId },
     });
   } catch (err) {
     return res.json({
@@ -99,13 +100,21 @@ exports.signup = async (req, res, next) => {
 
     const newUser = new User({ username, email, password: hashPassword });
 
-    newUser.save();
+    await newUser.save();
 
     const {
       username: newUserUsername,
       email: newUserEmail,
       _id: userId,
     } = newUser;
+
+    const firstNoteByDefault = new Note({
+      creator: userId,
+      content: "",
+      title: "Untitled",
+    });
+
+    firstNoteByDefault.save();
 
     const token = generateJWT({
       userId,
@@ -130,32 +139,30 @@ exports.signup = async (req, res, next) => {
     });
   }
 };
+
 exports.isLoggedIn = async (req, res, next) => {
   try {
     const { token: tokenInCookie } = req.cookies;
 
-    console.log("no");
-    // if (!tokenInCookie) return res.json({ user: null, authenticated: false });
-
     const valid = jwt.verify(tokenInCookie, process.env.SECRET_SIGNATURE);
 
-    console.log(valid);
-    if (!valid) return res.json({ user: null, authenticated: false });
+    if (!valid) throw new Error();
 
-    const user = await User.findById({ _id: valid.userId });
+    const user = await User.findById(valid.userId);
 
     const { username, email, _id: userId } = user;
 
-    res.json({ user: { username, email, userId }, authenticated: true });
-
-    next();
+    return res.json({ user: { username, email, userId }, authenticated: true });
   } catch (err) {
-    return res.json({ msg: "something wrong on the server" });
+    return res.json({
+      errorMsg: "There's an error when processing the request",
+    });
   }
 };
 
 function generateJWT(payload) {
-  const token = jwt.sign(payload, process.env.SECRET_SIGNATURE);
-
+  const token = jwt.sign(payload, process.env.SECRET_SIGNATURE, {
+    expiresIn: "1h",
+  });
   return token;
 }
