@@ -5,35 +5,22 @@ import axios from "../axiosConfig/axiosConfig";
 
 // delayed saving
 
-function TinyEditor({ noteContent, handleContentTypingStatus }) {
+function TinyEditor({
+  currentNoteId,
+  noteContent,
+  handleContentTypingStatus,
+  handleEditorRef,
+}) {
   const [content, setContent] = useState(noteContent);
   const [isEditorLoading, setIsEditorLoading] = useState(true);
   const { setNotes } = useOutletContext();
-  const noteIdRef = useRef(null);
-  const { noteId } = useParams();
+  const tinyEditorRef = useRef(null);
 
   useEffect(() => {
-    if (noteIdRef.current !== noteId) {
-      handleContentTypingStatus("idle");
-      noteIdRef.current = noteId;
-      return;
-    }
+    if (!tinyEditorRef.current) return;
 
-    // user typing loading when stop for 2 seconds execute post request
-    const timeoutId = setTimeout(() => {
-      axios
-        .post("/notes", {
-          noteId,
-          content,
-        })
-        .then(({ data }) => setNotes({ data: data.notes, status: "resolved" }))
-        .catch((err) => console.log(err));
-      handleContentTypingStatus("resolved");
-    }, [2000]);
-    return () => clearTimeout(timeoutId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
-
+    handleEditorRef(tinyEditorRef.current);
+  }, [tinyEditorRef.current]);
   return (
     <>
       {isEditorLoading && <h1> Loading Editor....</h1>}
@@ -45,6 +32,7 @@ function TinyEditor({ noteContent, handleContentTypingStatus }) {
           setContent(value);
         }}
         onInit={(evt, editor) => {
+          tinyEditorRef.current = editor;
           setIsEditorLoading(false);
         }}
         initialValue={noteContent}
@@ -75,10 +63,10 @@ function TinyEditor({ noteContent, handleContentTypingStatus }) {
             "nonbreaking",
           ],
           toolbar:
-            "undo redo  blocks  " +
+            "blocks  " +
             "bold italic forecolor  alignleft aligncenter " +
             "alignright alignjustify  bullist numlist outdent indent  " +
-            "removeformat  help",
+            "removeformat",
           content_style:
             "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } ",
           skin: "borderless",

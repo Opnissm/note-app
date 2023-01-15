@@ -5,14 +5,7 @@ import axios from "../../axiosConfig/axiosConfig";
 import { useAuth } from "../../context/auth-context";
 import { resetFormErrors } from "../../utilities/utils";
 
-function hasError({ username, email, password }) {
-  // if()
-}
-
 function Signup() {
-  const { setAuth } = useAuth();
-  const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["token"]);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,6 +13,9 @@ function Signup() {
   const [emailErr, setEmailErr] = useState(null);
   const [passwordErr, setPasswordErr] = useState(null);
   const [isSubmitting, setIsSubmmiting] = useState(false);
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
+  const [cookies, setCookie] = useCookies(["token"]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -40,7 +36,6 @@ function Signup() {
       if (!password) {
         setPasswordErr("Password is required");
       } else if (password.length <= 7) {
-        console.log("eyu wut");
         setPasswordErr("Password should be at least 8 characters long");
       } else {
         setPasswordErr(null);
@@ -58,7 +53,7 @@ function Signup() {
       });
 
       const { formErrors, isSuccessful, token, user } = data;
-      console.log(data);
+
       if (!isSuccessful) {
         const { usernameErr, emailErr, passwordErr } = formErrors;
 
@@ -83,11 +78,11 @@ function Signup() {
         return;
       }
 
-      alert("Succesffully sign up");
+      alert("Successfully sign up");
+      setIsSubmmiting(false);
       setCookie("token", token);
       setAuth({ user, isAuthenticated: true, status: "resolved" });
-      navigate("/note");
-      setIsSubmmiting(false);
+      navigate("/note", { replace: true });
     } catch (err) {
       console.log(err);
     }

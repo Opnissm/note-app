@@ -1,17 +1,53 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useRef, useState } from "react";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
+import HorizontalEllipsis from "../assets/dots.png";
+import DropdownList from "./DropdownList";
+import Overlay from "./Overlay";
+function Note({
+  id,
+  title,
+  idx,
+  noteDropdownIndex,
+  handleNoteDropdownIndex,
+  setNotes,
+}) {
+  const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
 
-function Note({ id, title, isActive }) {
+  const navigate = useNavigate();
   return (
     <NavLink
       to={`/note/${id}`}
       className={({ isActive }) =>
         `${
-          isActive ? "ring-1 ring-amber-400 rounded-md bg-green-50" : "border-b"
-        } px-3 py-2`
+          isActive ? "ring-1 ring-amber-400 bg-green-50 font-semibold" : ""
+        } px-3 py-2 hover:bg-slate-100 rounded-md flex flex-row items-center justify-between relative     `
       }
+      onMouseOver={() => setShowHorizontalEllipsis(true)}
+      onMouseLeave={() => setShowHorizontalEllipsis(false)}
     >
-      {title}
+      <p>{title}</p>
+      {showHorizontalEllipsis && (
+        <span
+          className="w-5 hover:bg-slate-200 rounded-sm z-20"
+          onClick={() => handleNoteDropdownIndex(idx)}
+        >
+          <img src={HorizontalEllipsis} className="w-full" />
+        </span>
+      )}
+      {idx === noteDropdownIndex && (
+        <>
+          <DropdownList
+            noteId={id}
+            noteDropdownIndex={noteDropdownIndex}
+            handleNoteDropdownIndex={handleNoteDropdownIndex}
+            setNotes={setNotes}
+          />
+          <Overlay
+            handleNoteDropdownIndex={handleNoteDropdownIndex}
+            setShowHorizontalEllipsis={setShowHorizontalEllipsis}
+          />
+        </>
+      )}
     </NavLink>
   );
 }

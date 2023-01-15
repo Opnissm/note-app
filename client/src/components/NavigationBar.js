@@ -1,49 +1,44 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router";
+import axios from "../axiosConfig/axiosConfig";
+import { useAuth } from "../context/auth-context";
+import LogoutButton from "./Button/LogoutButton";
 
-function NavigationBar({ notes }) {
+import NoteList from "./NoteList";
+
+function NavigationBar({ notes, setNotes }) {
+  const { auth } = useAuth();
+  const { user } = auth;
+
+  async function onAddNoteClick() {
+    axios
+      .post("/notes")
+      .then(({ data }) => {
+        console.log(data.notes);
+        setNotes({ data: data.notes, status: "resolved" });
+      })
+      .catch((err) => console.log(err));
+  }
   return (
-    <div className="flex flex-col w-[250px] max-w-[250px] py-2 px-1 border-r-2 h-full bg-white">
-      <div className="w-10 h-10 bg-slate-500 rounded-full"></div>
-      <p className="text-white">Name</p>
-      <div className="flex flex-col w-full space-y-4">
+    <div className="flex flex-col w-[280px] max-w-[280px] py-2 px-1 border-x h-full bg-white rounded-md space-y-2 ">
+      <div className="flex flex-row space-x-1 hover:bg-slate-100 cursor-pointer px-2 py-1">
+        <div className="w-8 h-8 border-2 rounded-full"></div>
+        <p className="text-sm">{user.username}</p>
+      </div>
+      <div className="flex flex-col w-full space-y-2">
         <div>
-          <button className="w-full px-2 py-1 rounded-md font-bold text-amber-400 text-left">
+          <button
+            className="w-full px-2 py-1 rounded-md font-bold text-amber-400 text-left hover:bg-slate-100"
+            onClick={onAddNoteClick}
+          >
             + Add note
           </button>
         </div>
-        <div className="w-full space-y-3 ">
-          <button className="text-left px-2 py-1 w-full ring-2 bg-amber-50 ring-amber-400 rounded-md hover:bg-slate-100 shadow-lg z-10 ">
-            <p className="text-lg text-ellipsis whitespace-nowrap overflow-hidden w-full">
-              Untitled
-            </p>
-            {/* <span className="font-thin">Jan 04, 2003</span> */}
-          </button>
-          <button className="text-left px-2 py-1 text-ellipsis whitespace-nowrap overflow-hidden w-full border-b">
-            <p className=" text-ellipsis whitespace-nowrap overflow-hidden w-full">
-              Untitled
-            </p>
-          </button>
-          <button className="text-left  px-2 py-1 text-ellipsis whitespace-nowrap overflow-hidden w-full border-b">
-            <p className=" text-ellipsis whitespace-nowrap overflow-hidden w-full">
-              Untitled
-            </p>
-          </button>
-          <button className="text-left  px-2 py-1 text-ellipsis whitespace-nowrap overflow-hidden w-full border-b">
-            <p className=" text-ellipsis whitespace-nowrap overflow-hidden w-full">
-              Untitled
-            </p>
-          </button>
-          <button className="text-left  px-2 py-1 text-ellipsis whitespace-nowrap overflow-hidden w-full border-b">
-            <p className=" text-ellipsis whitespace-nowrap overflow-hidden w-full">
-              Untitled
-            </p>
-          </button>
-          <button className="text-left px-2 py-1 text-ellipsis whitespace-nowrap overflow-hidden w-full border-b">
-            <p className=" text-ellipsis whitespace-nowrap overflow-hidden w-full">
-              Untitled
-            </p>
-          </button>
+        <div className="w-full space-y-2 flex flex-col overflow-auto p-1 h-[450px]">
+          <NoteList notes={notes} setNotes={setNotes} />
         </div>
+        <LogoutButton />
       </div>
     </div>
   );

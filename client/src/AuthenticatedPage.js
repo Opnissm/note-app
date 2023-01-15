@@ -1,41 +1,63 @@
 import React, { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
-
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import { useAuth } from "./context/auth-context";
-import TinyEditor from "./components/TinyEditor";
 import axios from "./axiosConfig/axiosConfig";
-import NoteTitle from "./components/NoteTitle";
 import Wrapper from "./components/Wrapper";
+import { useCookies } from "react-cookie";
 
 function AuthenticatedPage() {
+  const [notes, setNotes] = useState({
+    data: [],
+    status: "idle",
+  });
+  const navigate = useNavigate();
   const { auth } = useAuth();
   const { user } = auth;
-  const [notes, setNotes] = useState([]);
-  const [currentNote, setCurrentNote] = useState(0);
 
+  console.log(notes, "from parent component");
   useEffect(() => {
-    if (!user?.userId) return;
+    if (!auth.isAuthenticated) return navigate("/", { replace: true });
+    setNotes({
+      status: "loading",
+      data: [],
+    });
 
     axios
       .get("/notes", {
         params: { userId: user.userId },
       })
-      .then(({ data }) => setNotes(data.notes))
-      .catch((err) => console.error(err));
-  }, []);
+      .then(({ data }) => {
+        if (!data.notes.length)
+          return setNotes({ data: data.notes, status: "resolved" });
 
-  if (!auth.isAuthenticated) return <Navigate to="/" />;
+        const firstNoteId = data.notes[0]._id;
+        setNotes({ data: data.notes, status: "resolved" });
+        navigate(`/note/${firstNoteId}`, { replace: true });
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth.isAuthenticated, user]);
+  console.log(auth, "rendering authenticated page");
 
   return (
     <Wrapper>
-      <div className="w-[85vw] mx-auto max-w-7xl h-[600px] flex flex-row">
-        <NavigationBar notes={notes} currentNote={currentNote} />
-        <div className="flex flex-col bg-white w-full rounded-t-md border">
-          <NoteTitle title="title" />
-          <TinyEditor />
+      {auth.isAuthenticated ? (
+        <div className="w-[80vw] mx-auto max-w-[51rem] h-[600px] flex flex-row">
+          <NavigationBar notes={notes} setNotes={setNotes} />
+          <div className="flex flex-col bg-white w-full rounded-t-md border">
+            {notes.data.length && notes.status === "resolved" ? (
+              <Outlet
+                context={{
+                  notes: notes.data,
+                  setNotes,
+                }}
+              />
+            ) : (
+              <h1>Loading...</h1>
+            )}
+          </div>
         </div>
-      </div>
+      ) : null}
     </Wrapper>
   );
 }

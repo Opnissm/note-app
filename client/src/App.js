@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import AuthenticatedPage from "./AuthenticatedPage";
 import MainContentWrapper from "./components/MainContentWrapper";
-import { AuthProvider, useAuth } from "./context/auth-context";
+import { AuthProvider } from "./context/auth-context";
 import UnauthenticatedPage from "./UnauthenticatedPage";
 
 const router = createBrowserRouter(

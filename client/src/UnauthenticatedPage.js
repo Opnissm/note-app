@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import Login from "./components/Form/Login";
 import Logo from "./assets/logo.png";
-import axios from "axios";
 import FormWrapper from "./components/Form/FormWrapper";
 import NavigateFormWrapper from "./components/Form/NavigateFormWrapper";
+import { useCookies } from "react-cookie";
 
 function UnauthenticatedPage() {
   const [formDisplay, setFormDisplay] = useState("login");
@@ -11,13 +11,6 @@ function UnauthenticatedPage() {
   function handleFormDisplay(formName) {
     setFormDisplay(formName);
   }
-
-  useEffect(() => {
-    // axios
-    //   .post("http://localhost:5000/login")
-    //   .then(({ data }) => console.log(data))
-    //   .catch((err) => console.log(err));
-  }, []);
 
   return (
     <div className="flex w-[70vw] max-w-2xl mx-auto rounded-md pt-12">

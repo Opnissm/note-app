@@ -48,7 +48,10 @@ function AuthProvider() {
 
   return (
     <AuthContext.Provider value={value}>
-      <Outlet />
+      {auth.status === "idle" || auth.status === "loading" ? (
+        <h1>Loading...</h1>
+      ) : null}
+      {auth.status === "resolved" && <Outlet />}
     </AuthContext.Provider>
   );
 }
