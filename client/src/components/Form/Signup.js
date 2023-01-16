@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import axios from "../../axiosConfig/axiosConfig";
+import api from "../../axiosConfig/axiosConfig";
 import { useAuth } from "../../context/auth-context";
 import { resetFormErrors } from "../../utilities/utils";
 
@@ -46,7 +46,7 @@ function Signup() {
     }
 
     try {
-      const { data } = await axios.post("/signup", {
+      const { data } = await api.post("/signup", {
         username,
         email,
         password,

@@ -3,7 +3,7 @@ import { useOutletContext, useParams } from "react-router";
 import TinyEditor from "./TinyEditor";
 import NoteTitle from "./NoteTitle";
 import { findNote } from "../utilities/utils";
-import axios from "../axiosConfig/axiosConfig";
+import api from "../axiosConfig/axiosConfig";
 
 function MainContentWrapper() {
   const { notes, setNotes } = useOutletContext();
@@ -16,7 +16,7 @@ function MainContentWrapper() {
   function handleOnSave(currentNoteId) {
     if (!editorRef) return;
     setIsSaving(true);
-    axios
+    api
       .put("/notes", {
         noteId: currentNoteId,
         content: editorRef.getContent(),

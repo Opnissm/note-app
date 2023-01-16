@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Outlet } from "react-router-dom";
-import axios from "../axiosConfig/axiosConfig";
+import api from "../axiosConfig/axiosConfig";
 
 const AuthContext = createContext();
 AuthContext.displayName = "AuthContext";
@@ -27,7 +27,7 @@ function AuthProvider() {
 
   useEffect(() => {
     setAuth({ status: "loading", user: null, isAuthenticated: false });
-    axios
+    api
       .post("/auth", {}, { withCredentials: true })
       .then((res) => {
         console.log(res.data.authenticated);

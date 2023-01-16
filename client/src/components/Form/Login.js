@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Navigate, useNavigate } from "react-router";
-import axios from "../../axiosConfig/axiosConfig.js";
+import api from "../../axiosConfig/axiosConfig.js";
 import { useAuth } from "../../context/auth-context.js";
 
 function Login() {
@@ -23,7 +23,7 @@ function Login() {
       return setErrorMsg("Username and Password are required");
     }
     setIsSubmmiting(true);
-    const { data } = await axios.post("/login", {
+    const { data } = await api.post("/login", {
       username,
       password,
     });

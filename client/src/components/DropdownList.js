@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import axios from "../axiosConfig/axiosConfig";
+import api from "../axiosConfig/axiosConfig";
 import EditIcon from "../assets/editing.png";
 import DeleteIcon from "../assets/delete.png";
 function DropdownList({
@@ -9,7 +9,7 @@ function DropdownList({
   setNotes,
 }) {
   async function onDeleteNote() {
-    axios
+    api
       .delete("/notes", {
         data: { noteId },
       })

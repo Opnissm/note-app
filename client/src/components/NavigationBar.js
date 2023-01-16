@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
-import axios from "../axiosConfig/axiosConfig";
+import api from "../axiosConfig/axiosConfig";
 import { useAuth } from "../context/auth-context";
 import LogoutButton from "./Button/LogoutButton";
 
@@ -11,7 +11,7 @@ function NavigationBar({ notes, setNotes }) {
   const { user } = useAuth();
 
   async function onAddNoteClick() {
-    axios
+    api
       .post("/notes")
       .then(({ data }) => {
         console.log(data.notes);

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import { useAuth } from "./context/auth-context";
-import axios from "./axiosConfig/axiosConfig";
+import api from "./axiosConfig/axiosConfig";
 import Wrapper from "./components/Wrapper";
 import { useCookies } from "react-cookie";
 
@@ -22,7 +22,7 @@ function AuthenticatedPage() {
       data: [],
     });
 
-    axios
+    api
       .get("/notes", {
         params: { userId: user.userId },
       })
