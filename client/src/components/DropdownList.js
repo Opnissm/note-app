@@ -20,7 +20,7 @@ function DropdownList({
   return (
     <ul
       id="dropdown"
-      className="absolute shadow-lg bg-white right-0 w-36 z-20 top-4 rounded-md h-20 flex flex-col"
+      className="absolute shadow-lg bg-white right-0 w-36 z-30  top-4 rounded-md h-20 flex flex-col"
     >
       <li className="font-normal hover:bg-slate-200 px-2 cursor-pointer flex flex-row items-center flex-1">
         <div className="w-4">

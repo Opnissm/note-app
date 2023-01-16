@@ -13,7 +13,6 @@ function Note({
 }) {
   const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
 
-  const navigate = useNavigate();
   return (
     <NavLink
       to={`/note/${id}`}
@@ -29,7 +28,7 @@ function Note({
       {showHorizontalEllipsis && (
         <span
           className="w-5 hover:bg-slate-200 rounded-sm z-20"
-          onClick={() => handleNoteDropdownIndex(idx)}
+          onClick={(e) => handleNoteDropdownIndex(idx)}
         >
           <img src={HorizontalEllipsis} className="w-full" />
         </span>

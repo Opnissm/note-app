@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useOutletContext, useParams } from "react-router";
 import TinyEditor from "./TinyEditor";
 import NoteTitle from "./NoteTitle";
@@ -6,8 +6,8 @@ import { findNote } from "../utilities/utils";
 import axios from "../axiosConfig/axiosConfig";
 
 function MainContentWrapper() {
-  const [contentTypingStatus, setContentTypingStatus] = useState("idle");
   const { notes, setNotes } = useOutletContext();
+  const [isSaving, setIsSaving] = useState(false);
   const [editorRef, setEditorRef] = useState(null);
   const { noteId } = useParams();
 
@@ -15,17 +15,17 @@ function MainContentWrapper() {
 
   function handleOnSave(currentNoteId) {
     if (!editorRef) return;
-
+    setIsSaving(true);
     axios
       .put("/notes", {
         noteId: currentNoteId,
         content: editorRef.getContent(),
       })
-      .then(({ data }) => setNotes({ data: data.notes, status: "resolved" }))
+      .then(({ data }) => {
+        setNotes({ data: data.notes, status: "resolved" });
+        setIsSaving(false);
+      })
       .catch((err) => console.log(err));
-  }
-  function handleContentTypingStatus(value) {
-    setContentTypingStatus(value);
   }
 
   function handleEditorRef(editor) {
@@ -36,15 +36,14 @@ function MainContentWrapper() {
     <>
       <NoteTitle
         title={note.title}
+        isSaving={isSaving}
         handleOnSave={handleOnSave}
-        contentTypingStatus={contentTypingStatus}
         editorRef={editorRef}
         currentNoteId={note._id}
       />
       <TinyEditor
         currentNoteId={note._id}
         noteContent={note.content}
-        handleContentTypingStatus={handleContentTypingStatus}
         handleEditorRef={handleEditorRef}
       />
     </>

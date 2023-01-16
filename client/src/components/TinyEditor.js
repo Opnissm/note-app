@@ -5,12 +5,7 @@ import axios from "../axiosConfig/axiosConfig";
 
 // delayed saving
 
-function TinyEditor({
-  currentNoteId,
-  noteContent,
-  handleContentTypingStatus,
-  handleEditorRef,
-}) {
+function TinyEditor({ currentNoteId, noteContent, handleEditorRef }) {
   const [content, setContent] = useState(noteContent);
   const [isEditorLoading, setIsEditorLoading] = useState(true);
   const { setNotes } = useOutletContext();
@@ -18,16 +13,13 @@ function TinyEditor({
 
   useEffect(() => {
     if (!tinyEditorRef.current) return;
-
     handleEditorRef(tinyEditorRef.current);
   }, [tinyEditorRef.current]);
   return (
     <>
       {isEditorLoading && <h1> Loading Editor....</h1>}
-
       <Editor
         apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
-        onDirty={() => handleContentTypingStatus("loading")}
         onEditorChange={(value) => {
           setContent(value);
         }}
@@ -37,6 +29,7 @@ function TinyEditor({
         }}
         initialValue={noteContent}
         init={{
+          content_css: "",
           height: "100%",
           width: "100%",
           menubar: false,
@@ -63,13 +56,14 @@ function TinyEditor({
             "nonbreaking",
           ],
           toolbar:
-            "blocks  " +
-            "bold italic forecolor  alignleft aligncenter " +
-            "alignright alignjustify  bullist numlist outdent indent  " +
+            "blocks |" +
+            "bold italic forecolor backcolor underline selectall | alignleft aligncenter " +
+            "alignright alignjustify bullist  numlist lineheight | outdent indent " +
             "removeformat",
           content_style:
-            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; } ",
+            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px; }",
           skin: "borderless",
+          // content_css: "writer",
         }}
       />
     </>

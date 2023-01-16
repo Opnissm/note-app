@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 
-function SaveButton({ handleOnSave, currentNoteId }) {
+function SaveButton({ isSaving, handleOnSave, currentNoteId }) {
   return (
     <button
-      onClick={() => handleOnSave(currentNoteId)}
+      onClick={() => {
+        handleOnSave(currentNoteId);
+      }}
       className="bg-amber-400 hover:bg-amber-500 px-3 py-1 text-center text-white rounded-md"
     >
-      Save
+      {isSaving ? "Saving.." : "Save"}
     </button>
   );
 }
