@@ -12,12 +12,11 @@ function AuthenticatedPage() {
     status: "idle",
   });
   const navigate = useNavigate();
-  const { auth } = useAuth();
-  const { user } = auth;
+  const { user, isAuthenticated } = useAuth();
 
   console.log(notes, "from parent component");
   useEffect(() => {
-    if (!auth.isAuthenticated) return navigate("/", { replace: true });
+    if (!isAuthenticated) return navigate("/", { replace: true });
     setNotes({
       status: "loading",
       data: [],
@@ -34,15 +33,18 @@ function AuthenticatedPage() {
         const firstNoteId = data.notes[0]._id;
         setNotes({ data: data.notes, status: "resolved" });
         navigate(`/note/${firstNoteId}`, { replace: true });
+      })
+      .catch((err) => {
+        console.log(err, "yes");
+        navigate("/", { replace: true });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auth.isAuthenticated, user]);
-  console.log(auth, "rendering authenticated page");
-
+  }, [isAuthenticated, user]);
+  console.log("rendering authenticated page");
   return (
     <Wrapper>
-      {auth.isAuthenticated ? (
-        <div className="w-[80vw] mx-auto max-w-[51rem] h-[600px] flex flex-row">
+      {isAuthenticated ? (
+        <div className="w-[80vw] mx-auto h-[600px] max-w-[63.125rem] flex flex-row">
           <NavigationBar notes={notes} setNotes={setNotes} />
           <div className="flex flex-col bg-white w-full rounded-t-md border">
             {notes.data.length && notes.status === "resolved" ? (

@@ -11,7 +11,7 @@ function useAuth() {
 }
 
 function AuthProvider() {
-  const [auth, setAuth] = useState({
+  const [{ user, status, isAuthenticated }, setAuth] = useState({
     user: null,
     status: "idle",
     isAuthenticated: false,
@@ -23,7 +23,7 @@ function AuthProvider() {
     setAuth({ user: null, authenticated: false, status: "resolved" });
   }
 
-  const value = { auth, setAuth, logout };
+  const value = { user, status, isAuthenticated, setAuth, logout };
 
   useEffect(() => {
     setAuth({ status: "loading", user: null, isAuthenticated: false });
@@ -48,10 +48,8 @@ function AuthProvider() {
 
   return (
     <AuthContext.Provider value={value}>
-      {auth.status === "idle" || auth.status === "loading" ? (
-        <h1>Loading...</h1>
-      ) : null}
-      {auth.status === "resolved" && <Outlet />}
+      {status === "idle" || status === "loading" ? <h1>Loading...</h1> : null}
+      {status === "resolved" && <Outlet />}
     </AuthContext.Provider>
   );
 }

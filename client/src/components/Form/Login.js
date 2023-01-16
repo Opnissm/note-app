@@ -11,7 +11,7 @@ function Login() {
   const [isSubmitting, setIsSubmmiting] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
   const usernameFieldRef = useRef(null);
-  const { auth, setAuth } = useAuth();
+  const { isAuthenticated, setAuth } = useAuth();
 
   useEffect(() => {
     usernameFieldRef.current.focus();
@@ -35,7 +35,7 @@ function Login() {
     setAuth({ user, isAuthenticated: true, status: "resolved" });
   }
 
-  if (auth.isAuthenticated) {
+  if (isAuthenticated) {
     return <Navigate to="/note" replace />;
   }
 
