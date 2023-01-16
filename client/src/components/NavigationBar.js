@@ -8,8 +8,7 @@ import LogoutButton from "./Button/LogoutButton";
 import NoteList from "./NoteList";
 
 function NavigationBar({ notes, setNotes }) {
-  const { auth } = useAuth();
-  const { user } = auth;
+  const { user } = useAuth();
 
   async function onAddNoteClick() {
     axios
@@ -35,7 +34,7 @@ function NavigationBar({ notes, setNotes }) {
             + Add note
           </button>
         </div>
-        <div className="w-full space-y-2 flex flex-col overflow-auto p-1 h-[450px]">
+        <div className="w-full space-y-2 flex flex-col overflow-auto p-1 h-[450px] scrollbar">
           <NoteList notes={notes} setNotes={setNotes} />
         </div>
         <LogoutButton />
