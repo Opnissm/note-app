@@ -19,7 +19,7 @@ function AuthProvider() {
   const removeCookie = useCookies()[2];
 
   function logout() {
-    removeCookie(["token"]);
+    removeCookie(["token"], { path: "/" });
     setAuth({ user: null, authenticated: false, status: "resolved" });
   }
 
