@@ -12,7 +12,13 @@ function Note({
   setNotes,
 }) {
   const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
+  const [isOnTreshold, setIsOnTreshold] = useState(false);
 
+  function handleDropdownTreshold(element) {
+    if (element.pageY >= 420) return setIsOnTreshold(true);
+
+    setIsOnTreshold(false);
+  }
   return (
     <NavLink
       to={`/note/${id}`}
@@ -28,7 +34,10 @@ function Note({
       {showHorizontalEllipsis && (
         <span
           className="w-5 hover:bg-slate-200 rounded-sm z-20"
-          onClick={(e) => handleNoteDropdownIndex(idx)}
+          onClick={(e) => {
+            handleDropdownTreshold(e);
+            handleNoteDropdownIndex(idx);
+          }}
         >
           <img src={HorizontalEllipsis} className="w-full" />
         </span>
@@ -40,6 +49,7 @@ function Note({
             noteDropdownIndex={noteDropdownIndex}
             handleNoteDropdownIndex={handleNoteDropdownIndex}
             setNotes={setNotes}
+            isOnTreshold={isOnTreshold}
           />
           <Overlay
             handleNoteDropdownIndex={handleNoteDropdownIndex}

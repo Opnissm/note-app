@@ -2,12 +2,7 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import api from "../axiosConfig/axiosConfig";
 import EditIcon from "../assets/editing.png";
 import DeleteIcon from "../assets/delete.png";
-function DropdownList({
-  noteId,
-  handleNoteDropdownIndex,
-  noteDropdownIndex,
-  setNotes,
-}) {
+function DropdownList({ noteId, setNotes, isOnTreshold }) {
   async function onDeleteNote() {
     api
       .delete("/notes", {
@@ -20,7 +15,9 @@ function DropdownList({
   return (
     <ul
       id="dropdown"
-      className="absolute shadow-lg bg-white right-0 w-36 z-30  top-4 rounded-md h-20 flex flex-col"
+      className={`${
+        isOnTreshold ? "bottom-7" : "top-8"
+      } absolute shadow-lg bg-white right-2 w-36 z-30 border rounded-md h-20 flex flex-col`}
     >
       <li className="font-normal hover:bg-slate-200 px-2 cursor-pointer flex flex-row items-center flex-1">
         <div className="w-4">
