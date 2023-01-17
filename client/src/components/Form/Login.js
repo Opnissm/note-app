@@ -31,7 +31,7 @@ function Login() {
 
     setIsSubmmiting(false);
     if (errorMsg) return setErrorMsg(errorMsg);
-    setCookie("token", token);
+    setCookie("token", token, { path: "/" });
     setAuth({ user, isAuthenticated: true, status: "resolved" });
   }
 
