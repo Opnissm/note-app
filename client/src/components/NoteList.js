@@ -1,8 +1,6 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Note from "./Note";
 
-// Mouse over bugs
 function NoteList({ notes, setNotes }) {
   const [noteDropdownIndex, setNoteDropdownIndex] = useState(null);
 
