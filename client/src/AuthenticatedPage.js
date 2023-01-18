@@ -14,7 +14,7 @@ function AuthenticatedPage() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
 
-  console.log(notes, "from parent component");
+  console.log(notes.data);
   useEffect(() => {
     if (!isAuthenticated) return navigate("/", { replace: true });
     setNotes({
@@ -28,19 +28,17 @@ function AuthenticatedPage() {
       })
       .then(({ data }) => {
         if (!data.notes.length)
-          return setNotes({ data: data.notes, status: "resolved" });
-
-        const firstNoteId = data.notes[0]._id;
+          return setNotes({ data: [], status: "resolved" });
         setNotes({ data: data.notes, status: "resolved" });
+        const firstNoteId = data.notes[0]._id;
         navigate(`/note/${firstNoteId}`, { replace: true });
       })
       .catch((err) => {
-        console.log(err, "yes");
         navigate("/", { replace: true });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, user]);
-  console.log("rendering authenticated page");
+
   return (
     <Wrapper>
       {isAuthenticated ? (

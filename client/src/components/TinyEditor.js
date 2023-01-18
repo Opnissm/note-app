@@ -20,7 +20,6 @@ function TinyEditor({ currentNoteId, noteContent, handleEditorRef }) {
         }}
         initialValue={noteContent}
         init={{
-          content_css: "",
           height: "100%",
           width: "100%",
           menubar: false,

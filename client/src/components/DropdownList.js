@@ -2,13 +2,28 @@ import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import api from "../axiosConfig/axiosConfig";
 import EditIcon from "../assets/editing.png";
 import DeleteIcon from "../assets/delete.png";
-function DropdownList({ noteId, setNotes, isOnTreshold }) {
+import { useNavigate } from "react-router";
+function DropdownList({
+  noteId,
+  setNotes,
+  isOnTreshold,
+  handleNoteDropdownIndex,
+}) {
+  const navigate = useNavigate();
   async function onDeleteNote() {
     api
       .delete("/notes", {
         data: { noteId },
       })
-      .then(({ data }) => setNotes({ data: data.notes, status: "resolved" }))
+      .then(({ data }) => {
+        if (!data.notes.length)
+          return setNotes({ data: [], status: "resolved" });
+
+        setNotes({ data: data.notes, status: "resolved" });
+        const firstNoteId = data.notes[0]._id;
+        navigate(`/note/${firstNoteId}`, { replace: true });
+        handleNoteDropdownIndex(null);
+      })
       .catch((err) => console.log(err));
   }
 

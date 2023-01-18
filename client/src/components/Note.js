@@ -16,7 +16,6 @@ function Note({
 
   function handleDropdownTreshold(element) {
     if (element.pageY >= 420) return setIsOnTreshold(true);
-
     setIsOnTreshold(false);
   }
   return (
