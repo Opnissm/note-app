@@ -20,6 +20,7 @@ function MainContentWrapper() {
       .put("/notes", {
         noteId: currentNoteId,
         content: editorRef.getContent(),
+        updateField: "content",
       })
       .then(({ data }) => {
         setNotes({ data: data.notes, status: "resolved" });

@@ -28,7 +28,7 @@ function AuthProvider() {
   useEffect(() => {
     setAuth({ status: "loading", user: null, isAuthenticated: false });
     api
-      .post("/auth", {}, { withCredentials: true })
+      .post("/auth")
       .then((res) => {
         console.log(res.data.authenticated);
         if (!res.data.authenticated) {

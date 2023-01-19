@@ -14,7 +14,6 @@ function AuthenticatedPage() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
 
-  console.log(notes.data);
   useEffect(() => {
     if (!isAuthenticated) return navigate("/", { replace: true });
     setNotes({
