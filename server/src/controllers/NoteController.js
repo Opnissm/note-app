@@ -32,11 +32,20 @@ exports.createNote = async (req, res, next) => {
 };
 exports.updateNote = async (req, res, next) => {
   try {
+    const { updateField } = req.body;
+
+    const updateObject =
+      updateField === "title"
+        ? { title: req.body.title }
+        : updateField === "content"
+        ? { content: req.body.content }
+        : null;
+
+    if (!updateObject) return;
+
     await Note.findOneAndUpdate(
       { _id: req.body.noteId, creator: req.user._id },
-      {
-        content: req.body.content,
-      }
+      updateObject
     );
 
     const updatedNotes = await Note.find({
