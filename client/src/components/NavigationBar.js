@@ -20,7 +20,7 @@ function NavigationBar({ notes, setNotes }) {
       .catch((err) => console.log(err));
   }
   return (
-    <div className="flex flex-col w-[280px] max-w-[280px] py-2 px-1 border-x h-full bg-white rounded-md space-y-2 ">
+    <div className="flex flex-col w-[22%] py-2 px-1 border-x h-full bg-white rounded-md space-y-2 ">
       <div className="flex flex-row space-x-1 hover:bg-slate-100 cursor-pointer px-2 py-1">
         <div className="w-8 h-8 border-2 rounded-full"></div>
         <p className="text-sm">{user.username}</p>

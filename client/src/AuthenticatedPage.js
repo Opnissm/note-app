@@ -43,7 +43,7 @@ function AuthenticatedPage() {
       {isAuthenticated ? (
         <div className="w-[80vw] mx-auto h-[600px] max-w-[63.125rem] flex flex-row">
           <NavigationBar notes={notes} setNotes={setNotes} />
-          <div className="flex flex-col bg-white w-full rounded-t-md border">
+          <div className="flex flex-col bg-white w-[78%] rounded-t-md border">
             {notes.data.length && notes.status === "resolved" ? (
               <Outlet
                 context={{
