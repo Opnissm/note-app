@@ -24,9 +24,9 @@ function MainContentWrapper() {
       })
       .then(({ data }) => {
         setNotes({ data: data.notes, status: "resolved" });
-        setIsSaving(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setIsSaving(false));
   }
 
   function handleEditorRef(editor) {

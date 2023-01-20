@@ -23,9 +23,9 @@ function DropdownList({
         setNotes({ data: data.notes, status: "resolved" });
         const firstNoteId = data.notes[0]._id;
         navigate(`/note/${firstNoteId}`, { replace: true });
-        handleNoteDropdownIndex(null);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => handleNoteDropdownIndex(null));
   }
 
   return (
