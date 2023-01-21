@@ -31,17 +31,22 @@ exports.createNote = async (req, res, next) => {
   }
 };
 exports.updateNote = async (req, res, next) => {
+  let titleErr = null;
   try {
     const { updateField } = req.body;
 
-    const updateObject =
-      updateField === "title"
-        ? { title: req.body.title }
-        : updateField === "content"
-        ? { content: req.body.content }
-        : null;
+    let updateObject;
 
-    if (!updateObject) return;
+    if (updateField === "title") {
+      if (!req.body.title) {
+        titleErr = "Title can't be empty";
+        throw new Error();
+      } else {
+        updateObject = { title: req.body.title };
+      }
+    } else if (updateField === "content") {
+      updateObject = { content: req.body.content };
+    }
 
     await Note.findOneAndUpdate(
       { _id: req.body.noteId, creator: req.user._id },
@@ -54,9 +59,9 @@ exports.updateNote = async (req, res, next) => {
 
     return res.json({ notes: updatedNotes, isSuccess: true });
   } catch (err) {
-    console.log(err.message);
     return res.json({
       errorMsg: "Server error",
+      titleErr,
     });
   }
 };
