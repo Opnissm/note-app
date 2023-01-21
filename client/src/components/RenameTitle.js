@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import api from "../axiosConfig/axiosConfig";
+import Popup from "./Popup";
 
 function RenameTitle({
   noteId,
@@ -11,12 +12,23 @@ function RenameTitle({
 }) {
   const [renameTitle, setRenameTitle] = useState(title);
   const [isRenaming, setIsRenaming] = useState(false);
+  const [isDirty, setIsDirty] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const inputRef = useRef(null);
   const renameLoadingStyle = isRenaming
     ? "bg-slate-100 text-black hover"
     : "hover:bg-amber-400 hover:text-white";
   function onRenameChange(e) {
-    setRenameTitle(e.target.value);
+    const { value } = e.target;
+    setRenameTitle(value);
+
+    if (!isDirty) return setIsDirty(true);
+
+    if (!value.length) {
+      setErrorMsg("Title can't be empty");
+    } else {
+      setErrorMsg("");
+    }
   }
 
   function handleRenameSubmit() {
@@ -28,14 +40,19 @@ function RenameTitle({
         updateField: "title",
       })
       .then(({ data }) => {
+        console.log(data);
+        if (data.titleErr) {
+          setErrorMsg(data.titleErr);
+          return;
+        }
         setNotes({ data: data.notes, status: "resolved" });
+        handleNoteDropdownIndex(null);
+        handleShowRenameTitleForm(false);
       })
       .catch((err) => console.log(err))
       .finally(() => {
         handleShowHorizontalEllipsis(false);
-        handleNoteDropdownIndex(null);
         setIsRenaming(false);
-        handleShowRenameTitleForm(false);
       });
   }
 
@@ -44,7 +61,13 @@ function RenameTitle({
   }, []);
   return (
     <div className="px-3 py-1 bottom-7 top-8 absolute shadow-xl bg-white right-2 w-48 z-30 border rounded-md flex flex-col h-max">
-      <h1 className="font-normal">Rename Title</h1>
+      <h1 className="font-thin">Rename Title</h1>
+      {errorMsg ? (
+        <Popup
+          message={errorMsg}
+          className="bg-red-400 text-white mb-2 rounded-md p-1 cursor-default text-sm"
+        />
+      ) : null}
       <form className="space-y-1">
         <input
           ref={inputRef}

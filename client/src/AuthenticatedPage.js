@@ -19,8 +19,6 @@ function AuthenticatedPage() {
     setIsDeleting(booleanVal);
   }
 
-  console.log(isAuthenticated);
-
   useEffect(() => {
     if (!isAuthenticated) return navigate("/", { replace: true });
     setNotes({
