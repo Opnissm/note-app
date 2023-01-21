@@ -9,10 +9,12 @@ function DropdownList({
   isOnTreshold,
   handleNoteDropdownIndex,
   handleShowRenameTitleForm,
-  handleShowHorizontalEllipsis,
+  handleNoteDeleting,
 }) {
   const navigate = useNavigate();
+
   async function onDeleteNote() {
+    handleNoteDeleting(true);
     api
       .delete("/notes", {
         data: { noteId },
@@ -25,7 +27,10 @@ function DropdownList({
         navigate(`/note/${firstNoteId}`, { replace: true });
       })
       .catch((err) => console.log(err))
-      .finally(() => handleNoteDropdownIndex(null));
+      .finally(() => {
+        handleNoteDeleting(false);
+        handleNoteDropdownIndex(null);
+      });
   }
 
   return (

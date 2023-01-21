@@ -25,9 +25,9 @@ function TinyEditor({ noteContent, handleEditorRef }) {
           menubar: false,
           resize: false,
           plugins: [
-            "advlist",
+            // "advlist",
             "autolink",
-            "lists",
+            // "lists",
             "link",
             "image",
             "charmap",

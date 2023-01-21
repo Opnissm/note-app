@@ -4,9 +4,10 @@ import TinyEditor from "./TinyEditor";
 import NoteTitle from "./NoteTitle";
 import { findNote } from "../utilities/utils";
 import api from "../axiosConfig/axiosConfig";
+import Popup from "./Popup";
 
 function MainContentWrapper() {
-  const { notes, setNotes } = useOutletContext();
+  const { notes, setNotes, isDeleting } = useOutletContext();
   const [isSaving, setIsSaving] = useState(false);
   const [editorRef, setEditorRef] = useState(null);
   const { noteId } = useParams();
@@ -47,6 +48,12 @@ function MainContentWrapper() {
         noteContent={note.content}
         handleEditorRef={handleEditorRef}
       />
+      {isDeleting ? (
+        <Popup
+          message="Deleting"
+          className="text-center top-[10%] absolute bg-red-500 text-white w-full z-10"
+        />
+      ) : null}
     </>
   );
 }

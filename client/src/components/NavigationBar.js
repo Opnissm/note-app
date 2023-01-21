@@ -7,7 +7,7 @@ import LogoutButton from "./Button/LogoutButton";
 
 import NoteList from "./NoteList";
 
-function NavigationBar({ notes, setNotes }) {
+function NavigationBar({ notes, setNotes, handleNoteDeleting }) {
   const { user } = useAuth();
 
   async function onAddNoteClick() {
@@ -26,16 +26,19 @@ function NavigationBar({ notes, setNotes }) {
         <p className="text-sm">{user.username}</p>
       </div>
       <div className="flex flex-col w-full space-y-2">
-        <div>
-          <button
-            className="w-full px-2 py-1 rounded-md font-bold text-amber-400 text-left hover:bg-slate-100"
-            onClick={onAddNoteClick}
-          >
-            + Add note
-          </button>
-        </div>
+        <button
+          className="w-full px-2 py-1 rounded-md font-bold text-amber-400 text-left hover:bg-slate-100"
+          onClick={onAddNoteClick}
+        >
+          + Add note
+        </button>
+
         <div className="w-full space-y-2 flex flex-col overflow-auto p-1 h-[450px] scrollbar">
-          <NoteList notes={notes} setNotes={setNotes} />
+          <NoteList
+            notes={notes}
+            setNotes={setNotes}
+            handleNoteDeleting={handleNoteDeleting}
+          />
         </div>
         <LogoutButton />
       </div>

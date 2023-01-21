@@ -11,6 +11,7 @@ function Note({
   noteDropdownIndex,
   handleNoteDropdownIndex,
   setNotes,
+  handleNoteDeleting,
 }) {
   const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
   const [showRenameTitleForm, setShowRenameTitleForm] = useState(false);
@@ -72,6 +73,7 @@ function Note({
               isOnTreshold={isOnTreshold}
               handleShowRenameTitleForm={handleShowRenameTitleForm}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
+              handleNoteDeleting={handleNoteDeleting}
             />
           )}
           <Overlay

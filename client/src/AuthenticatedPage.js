@@ -13,6 +13,13 @@ function AuthenticatedPage() {
   });
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  function handleNoteDeleting(booleanVal) {
+    setIsDeleting(booleanVal);
+  }
+
+  console.log(isAuthenticated);
 
   useEffect(() => {
     if (!isAuthenticated) return navigate("/", { replace: true });
@@ -32,7 +39,7 @@ function AuthenticatedPage() {
         const firstNoteId = data.notes[0]._id;
         navigate(`/note/${firstNoteId}`, { replace: true });
       })
-      .catch((err) => {
+      .catch(() => {
         navigate("/", { replace: true });
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,13 +49,18 @@ function AuthenticatedPage() {
     <Wrapper>
       {isAuthenticated ? (
         <div className="w-[80vw] mx-auto h-[600px] max-w-[63.125rem] flex flex-row">
-          <NavigationBar notes={notes} setNotes={setNotes} />
-          <div className="flex flex-col bg-white w-[78%] rounded-t-md border">
+          <NavigationBar
+            notes={notes}
+            setNotes={setNotes}
+            handleNoteDeleting={handleNoteDeleting}
+          />
+          <div className="flex flex-col bg-white w-[78%] rounded-t-md border relative">
             {notes.data.length && notes.status === "resolved" ? (
               <Outlet
                 context={{
                   notes: notes.data,
                   setNotes,
+                  isDeleting,
                 }}
               />
             ) : (
