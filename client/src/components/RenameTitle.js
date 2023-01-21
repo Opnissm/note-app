@@ -7,15 +7,20 @@ function RenameTitle({
   handleNoteDropdownIndex,
   setNotes,
   handleShowHorizontalEllipsis,
+  handleShowRenameTitleForm,
 }) {
   const [renameTitle, setRenameTitle] = useState(title);
+  const [isRenaming, setIsRenaming] = useState(false);
   const inputRef = useRef(null);
-
+  const renameLoadingStyle = isRenaming
+    ? "bg-slate-100 text-black hover"
+    : "hover:bg-amber-400 hover:text-white";
   function onRenameChange(e) {
     setRenameTitle(e.target.value);
   }
 
   function handleRenameSubmit() {
+    setIsRenaming(true);
     api
       .put("/notes", {
         noteId,
@@ -29,6 +34,8 @@ function RenameTitle({
       .finally(() => {
         handleShowHorizontalEllipsis(false);
         handleNoteDropdownIndex(null);
+        setIsRenaming(false);
+        handleShowRenameTitleForm(false);
       });
   }
 
@@ -48,8 +55,9 @@ function RenameTitle({
         />
         <input
           type="submit"
-          value="Rename"
-          className="px-2 py-1 border w-full rounded-md cursor-pointer font-medium hover:bg-amber-400 hover:text-white  text-black"
+          value={`${isRenaming ? "Renaming..." : "Rename"}`}
+          disabled={isRenaming}
+          className={`${renameLoadingStyle} px-2 py-1 border w-full rounded-md cursor-pointer font-medium text-black`}
           onClick={handleRenameSubmit}
         />
       </form>

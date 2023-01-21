@@ -63,6 +63,7 @@ function Note({
               handleNoteDropdownIndex={handleNoteDropdownIndex}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
               setNotes={setNotes}
+              handleShowRenameTitleForm={handleShowRenameTitleForm}
             />
           ) : (
             <DropdownList
