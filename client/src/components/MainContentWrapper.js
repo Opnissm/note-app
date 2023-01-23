@@ -44,7 +44,6 @@ function MainContentWrapper() {
         currentNoteId={note._id}
       />
       <TinyEditor
-        currentNoteId={note._id}
         noteContent={note.content}
         handleEditorRef={handleEditorRef}
         isDeleting={isDeleting}

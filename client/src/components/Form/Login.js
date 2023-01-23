@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
-import { Navigate, useNavigate } from "react-router";
+import { Navigate } from "react-router";
 import api from "../../axiosConfig/axiosConfig.js";
 import { useAuth } from "../../context/auth-context.js";
 

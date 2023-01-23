@@ -1,6 +1,3 @@
-import { useState } from "react";
-import { useCookies } from "react-cookie";
-import { useNavigate } from "react-router";
 import api from "../axiosConfig/axiosConfig";
 import { useAuth } from "../context/auth-context";
 import LogoutButton from "./Button/LogoutButton";
