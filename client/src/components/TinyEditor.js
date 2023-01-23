@@ -1,9 +1,17 @@
 import { Editor } from "@tinymce/tinymce-react";
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
+import Popup from "./Popup";
 
-function TinyEditor({ noteContent, handleEditorRef }) {
+function TinyEditor({
+  currentNoteId,
+  noteContent,
+  handleEditorRef,
+  isDeleting,
+}) {
   const [isEditorLoading, setIsEditorLoading] = useState(true);
   const tinyEditorRef = useRef(null);
+  const { noteId } = useParams();
 
   useEffect(() => {
     if (!tinyEditorRef.current) return;

@@ -10,11 +10,13 @@ function DropdownList({
   handleNoteDropdownIndex,
   handleShowRenameTitleForm,
   handleNoteDeleting,
+  setNoteIdDelete,
 }) {
   const navigate = useNavigate();
 
   async function onDeleteNote() {
     handleNoteDeleting(true);
+    setNoteIdDelete(noteId);
     api
       .delete("/notes", {
         data: { noteId },
@@ -30,6 +32,7 @@ function DropdownList({
       .finally(() => {
         handleNoteDeleting(false);
         handleNoteDropdownIndex(null);
+        setNoteIdDelete(null);
       });
   }
 

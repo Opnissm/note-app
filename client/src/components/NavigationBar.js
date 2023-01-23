@@ -7,7 +7,12 @@ import LogoutButton from "./Button/LogoutButton";
 
 import NoteList from "./NoteList";
 
-function NavigationBar({ notes, setNotes, handleNoteDeleting }) {
+function NavigationBar({
+  notes,
+  setNotes,
+  handleNoteDeleting,
+  setNoteIdDelete,
+}) {
   const { user } = useAuth();
 
   async function onAddNoteClick() {
@@ -38,6 +43,7 @@ function NavigationBar({ notes, setNotes, handleNoteDeleting }) {
             notes={notes}
             setNotes={setNotes}
             handleNoteDeleting={handleNoteDeleting}
+            setNoteIdDelete={setNoteIdDelete}
           />
         </div>
         <LogoutButton />

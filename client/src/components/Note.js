@@ -11,12 +11,13 @@ function Note({
   noteDropdownIndex,
   handleNoteDropdownIndex,
   setNotes,
+  setNoteIdDelete,
   handleNoteDeleting,
 }) {
   const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
   const [showRenameTitleForm, setShowRenameTitleForm] = useState(false);
   const [isOnTreshold, setIsOnTreshold] = useState(false);
-  console.log(showHorizontalEllipsis);
+  // console.log(showHorizontalEllipsis);
   function handleDropdownTreshold(element) {
     if (element.pageY >= 420) return setIsOnTreshold(true);
     setIsOnTreshold(false);
@@ -75,6 +76,7 @@ function Note({
               handleShowRenameTitleForm={handleShowRenameTitleForm}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
               handleNoteDeleting={handleNoteDeleting}
+              setNoteIdDelete={setNoteIdDelete}
             />
           )}
           <Overlay

@@ -13,6 +13,7 @@ function AuthenticatedPage() {
   });
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
+  const [noteIdDelete, setNoteIdDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
 
   function handleNoteDeleting(booleanVal) {
@@ -50,6 +51,7 @@ function AuthenticatedPage() {
           <NavigationBar
             notes={notes}
             setNotes={setNotes}
+            setNoteIdDelete={setNoteIdDelete}
             handleNoteDeleting={handleNoteDeleting}
           />
           <div className="flex flex-col bg-white w-[78%] rounded-t-md border relative">
@@ -59,6 +61,7 @@ function AuthenticatedPage() {
                   notes: notes.data,
                   setNotes,
                   isDeleting,
+                  noteIdDelete,
                 }}
               />
             ) : (

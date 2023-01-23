@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Note from "./Note";
 
-function NoteList({ notes, setNotes, handleNoteDeleting }) {
+function NoteList({ notes, setNotes, handleNoteDeleting, setNoteIdDelete }) {
   const [noteDropdownIndex, setNoteDropdownIndex] = useState(null);
 
   function handleNoteDropdownIndex(indexNum) {
@@ -24,6 +24,7 @@ function NoteList({ notes, setNotes, handleNoteDeleting }) {
             noteDropdownIndex={noteDropdownIndex}
             handleNoteDropdownIndex={handleNoteDropdownIndex}
             handleNoteDeleting={handleNoteDeleting}
+            setNoteIdDelete={setNoteIdDelete}
           />
         ))}
     </>
