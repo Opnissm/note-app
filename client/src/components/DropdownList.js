@@ -41,9 +41,7 @@ function DropdownList({
 
   return (
     <ul
-      className={`${
-        isOnTreshold ? "bottom-7" : "top-8"
-      } absolute shadow-xl bg-white right-2 w-36 z-30 border rounded-md h-20 flex flex-col`}
+      className={`${isOnTreshold} absolute shadow-xl bg-white right-2 w-36 z-30 border rounded-md h-20 flex flex-col`}
     >
       <li
         onClick={() => handleShowRenameTitleForm(true)}

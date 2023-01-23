@@ -65,6 +65,7 @@ function Note({
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
               setNotes={setNotes}
               handleShowRenameTitleForm={handleShowRenameTitleForm}
+              isOnTreshold={isOnTreshold ? "bottom-7" : "top-8"}
             />
           ) : (
             <DropdownList
@@ -72,7 +73,7 @@ function Note({
               noteDropdownIndex={noteDropdownIndex}
               handleNoteDropdownIndex={handleNoteDropdownIndex}
               setNotes={setNotes}
-              isOnTreshold={isOnTreshold}
+              isOnTreshold={isOnTreshold ? "bottom-7" : "top-8"}
               handleShowRenameTitleForm={handleShowRenameTitleForm}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
               handleNoteDeleting={handleNoteDeleting}

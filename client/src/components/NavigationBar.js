@@ -13,7 +13,6 @@ function NavigationBar({
   onAddNoteClick,
 }) {
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col w-[22%] py-2 px-1 border-x h-full bg-white rounded-md space-y-2 ">

@@ -9,6 +9,7 @@ function RenameTitle({
   setNotes,
   handleShowHorizontalEllipsis,
   handleShowRenameTitleForm,
+  isOnTreshold,
 }) {
   const [renameTitle, setRenameTitle] = useState(title);
   const [isRenaming, setIsRenaming] = useState(false);
@@ -59,8 +60,11 @@ function RenameTitle({
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  console.log(isOnTreshold);
   return (
-    <div className="px-3 py-1 bottom-7 top-8 absolute shadow-xl bg-white right-2 w-48 z-30 border rounded-md flex flex-col h-max">
+    <div
+      className={`${isOnTreshold} right-1 px-3 py-1 absolute shadow-xl bg-white w-48 z-30 border rounded-md flex flex-col h-max`}
+    >
       <h1 className="font-thin">Rename Title</h1>
       {errorMsg ? (
         <Popup
