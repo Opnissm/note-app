@@ -11,22 +11,22 @@ function NoteList({ notes, setNotes, handleNoteDeleting, setNoteIdDelete }) {
   return (
     <>
       {notes.status === "loading" && <h1>Loading notes...</h1>}
-      {notes.status === "resolved" &&
-        notes.data.length &&
-        notes.data.map((note, idx) => (
-          <Note
-            id={note._id}
-            content={note.content}
-            title={note.title}
-            key={note._id}
-            idx={idx}
-            setNotes={setNotes}
-            noteDropdownIndex={noteDropdownIndex}
-            handleNoteDropdownIndex={handleNoteDropdownIndex}
-            handleNoteDeleting={handleNoteDeleting}
-            setNoteIdDelete={setNoteIdDelete}
-          />
-        ))}
+      {notes.status === "resolved" && notes.data.length
+        ? notes.data.map((note, idx) => (
+            <Note
+              id={note._id}
+              content={note.content}
+              title={note.title}
+              key={note._id}
+              idx={idx}
+              setNotes={setNotes}
+              noteDropdownIndex={noteDropdownIndex}
+              handleNoteDropdownIndex={handleNoteDropdownIndex}
+              handleNoteDeleting={handleNoteDeleting}
+              setNoteIdDelete={setNoteIdDelete}
+            />
+          ))
+        : null}
     </>
   );
 }

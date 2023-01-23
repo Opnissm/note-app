@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router";
 import api from "../axiosConfig/axiosConfig";
 import { useAuth } from "../context/auth-context";
 import LogoutButton from "./Button/LogoutButton";
@@ -9,18 +10,11 @@ function NavigationBar({
   setNotes,
   handleNoteDeleting,
   setNoteIdDelete,
+  onAddNoteClick,
 }) {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
-  async function onAddNoteClick() {
-    api
-      .post("/notes")
-      .then(({ data }) => {
-        console.log(data.notes);
-        setNotes({ data: data.notes, status: "resolved" });
-      })
-      .catch((err) => console.log(err));
-  }
   return (
     <div className="flex flex-col w-[22%] py-2 px-1 border-x h-full bg-white rounded-md space-y-2 ">
       <div className="flex flex-row space-x-1 hover:bg-slate-100 cursor-pointer px-2 py-1">

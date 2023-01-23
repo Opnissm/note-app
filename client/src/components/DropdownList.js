@@ -22,8 +22,11 @@ function DropdownList({
         data: { noteId },
       })
       .then(({ data }) => {
-        if (!data.notes.length)
-          return setNotes({ data: [], status: "resolved" });
+        if (!data.notes.length) {
+          navigate("", { replace: true });
+          setNotes({ data: [], status: "resolved" });
+          return;
+        }
         setNotes({ data: data.notes, status: "resolved" });
         const firstNoteId = data.notes[0]._id;
         navigate(`/note/${firstNoteId}`, { replace: true });
