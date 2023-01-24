@@ -12,7 +12,9 @@ import UnauthenticatedPage from "./UnauthenticatedPage";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AuthProvider />}>
-      <Route path="/" element={<UnauthenticatedPage />} />
+      <Route path="/" element={<UnauthenticatedPage />}>
+        <Route path="forgot-password" element={<h1>Sike</h1>} />
+      </Route>
       <Route path="/note" element={<AuthenticatedPage />}>
         <Route path=":noteId" element={<MainContentWrapper />} />
       </Route>

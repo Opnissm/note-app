@@ -1,8 +1,10 @@
 import React from "react";
+import { useNavigate } from "react-router";
 
-function ForgotPasswordButton({ onFormDisplayChange }) {
+function ForgotPasswordButton() {
+  const navigate = useNavigate();
   return (
-    <button onClick={() => onFormDisplayChange("forgot")} className="text-sm">
+    <button onClick={() => navigate("/forgot-password")} className="text-sm">
       Forgot password
     </button>
   );

@@ -27,9 +27,9 @@ function TinyEditor({ noteContent, handleEditorRef }) {
           menubar: false,
           resize: false,
           plugins: [
-            // "advlist",
+            "advlist",
             "autolink",
-            // "lists",
+            "lists",
             "link",
             "image",
             "charmap",
@@ -49,7 +49,7 @@ function TinyEditor({ noteContent, handleEditorRef }) {
           ],
           toolbar:
             "blocks |" +
-            "bold italic forecolor backcolor underline selectall | alignleft aligncenter " +
+            "bold italic forecolor backcolor underline | alignleft aligncenter " +
             "alignright alignjustify bullist  numlist lineheight | outdent indent " +
             "removeformat",
           content_style:

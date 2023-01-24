@@ -14,7 +14,6 @@ function MainContentWrapper() {
 
   const note = useMemo(() => findNote(notes, noteId), [notes, noteId]);
 
-  console.log(note);
   function handleOnSave(currentNoteId) {
     if (!editorRef) return;
     setIsSaving(true);

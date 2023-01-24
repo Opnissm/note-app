@@ -1,13 +1,19 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import Login from "./components/Form/Login";
+import React, { useState } from "react";
 import Logo from "./assets/logo.png";
-import FormWrapper from "./components/Form/FormWrapper";
 import NavigateFormWrapper from "./components/Form/NavigateFormWrapper";
-import { useCookies } from "react-cookie";
+import { Outlet, useLocation } from "react-router";
+import FormManager from "./components/Form/FormManager";
 
 function UnauthenticatedPage() {
   const [formDisplay, setFormDisplay] = useState("login");
+  const location = useLocation();
 
+  const form =
+    location.pathname === "/forgot-password" ? (
+      <Outlet />
+    ) : (
+      <FormManager formDisplay={formDisplay} />
+    );
   function handleFormDisplay(formName) {
     setFormDisplay(formName);
   }
@@ -27,7 +33,7 @@ function UnauthenticatedPage() {
         </div>
       </div>
       <div className="flex-1 w-[90%] mx-auto space-y-2">
-        <FormWrapper formDisplay={formDisplay} />
+        {form}
         <NavigateFormWrapper
           formDisplay={formDisplay}
           onFormDisplayChange={handleFormDisplay}

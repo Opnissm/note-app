@@ -1,8 +1,9 @@
 import React from "react";
+import { Outlet, useLocation } from "react-router";
 import Login from "./Login";
 import Signup from "./Signup";
 
-function FormWrapper({ formDisplay }) {
+function FormManager({ formDisplay }) {
   if (formDisplay === "login") {
     return <Login />;
   }
@@ -11,11 +12,7 @@ function FormWrapper({ formDisplay }) {
     return <Signup />;
   }
 
-  if (formDisplay === "forgot") {
-    return <h1>ForgetForm</h1>;
-  }
-
   throw new Error("This should be impossible");
 }
 
-export default FormWrapper;
+export default FormManager;
