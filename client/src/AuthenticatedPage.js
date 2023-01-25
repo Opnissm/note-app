@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import NavigationBar from "./components/NavigationBar";
 import { useAuth } from "./context/auth-context";
-import api from "./axiosConfig/axiosConfig";
+import api from "./axios_config/axiosConfig";
 import Wrapper from "./components/Wrapper";
 import { useCookies } from "react-cookie";
 

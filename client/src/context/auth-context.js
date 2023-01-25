@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Outlet } from "react-router-dom";
-import api from "../axiosConfig/axiosConfig";
+import api from "../axios_config/axiosConfig";
 
 const AuthContext = createContext();
 AuthContext.displayName = "AuthContext";

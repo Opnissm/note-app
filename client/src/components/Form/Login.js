@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { useCookies } from "react-cookie";
 import { Navigate } from "react-router";
 import { useForm } from "react-hook-form";
-import api from "../../axiosConfig/axiosConfig.js";
+import api from "../../axios_config/axiosConfig.js";
 import { useAuth } from "../../context/auth-context.js";
 
 const schema = yup
@@ -23,7 +23,7 @@ function Login() {
     watch,
     handleSubmit,
     clearErrors,
-    formState: { isSubmitting, errors, isValidating },
+    formState: { isSubmitting, errors },
   } = useForm({
     resolver: yupResolver(schema),
   });

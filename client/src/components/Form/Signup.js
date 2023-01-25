@@ -1,86 +1,64 @@
 import React, { useRef, useState } from "react";
 import { useCookies } from "react-cookie";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useNavigate } from "react-router";
-import api from "../../axiosConfig/axiosConfig";
+import api from "../../axios_config/axiosConfig";
 import { useAuth } from "../../context/auth-context";
-import { resetFormErrors } from "../../utilities/utils";
+import { useForm } from "react-hook-form";
 
+const schema = yup
+  .object({
+    username: yup.string().required("Username is required"),
+    email: yup.string().required("Email is required"),
+    password: yup
+      .string()
+      .required("Password is required")
+      .min(8, "Password should be at least 8 characters long"),
+  })
+  .required();
 function Signup() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [usernameErr, setUsernameErr] = useState(null);
-  const [emailErr, setEmailErr] = useState(null);
-  const [passwordErr, setPasswordErr] = useState(null);
-  const [isSubmitting, setIsSubmmiting] = useState(false);
+  const {
+    register,
+    setError,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const { setAuth } = useAuth();
   const navigate = useNavigate();
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [, setCookie] = useCookies(["token"]);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  const usernameErrMsg = errors?.username?.message;
+  const emailErrMsg = errors?.email?.message;
+  const passwordErrMsg = errors?.password?.message;
 
-    setIsSubmmiting(true);
-
-    if (!username || !email || !password || password.length <= 7) {
-      if (!username) {
-        setUsernameErr("Username is required");
-      } else {
-        setUsernameErr(null);
-      }
-      if (!email) {
-        setEmailErr("Email is required");
-      } else {
-        setEmailErr(null);
-      }
-      if (!password) {
-        setPasswordErr("Password is required");
-      } else if (password.length <= 7) {
-        setPasswordErr("Password should be at least 8 characters long");
-      } else {
-        setPasswordErr(null);
-      }
-
-      setIsSubmmiting(false);
-      return;
-    }
-
+  async function onSubmit(data) {
+    const { username, email, password } = data;
     try {
       const { data } = await api.post("/signup", {
         username,
         email,
         password,
       });
-
       const { formErrors, isSuccessful, token, user } = data;
 
       if (!isSuccessful) {
-        const { usernameErr, emailErr, passwordErr } = formErrors;
+        const { usernameErr, passwordErr, emailErr } = formErrors;
 
         if (usernameErr) {
-          setUsernameErr(usernameErr);
-        } else {
-          setUsernameErr(null);
+          setError("username", { message: usernameErr });
         }
-
-        if (emailErr) {
-          setEmailErr(emailErr);
-        } else {
-          setEmailErr(null);
-        }
-
         if (passwordErr) {
-          setPasswordErr(passwordErr);
-        } else {
-          setPasswordErr(null);
+          setError("password", { message: passwordErr });
         }
-        setIsSubmmiting(false);
+        if (emailErr) {
+          setError("email", { message: emailErr });
+        }
         return;
       }
-
-      alert("Successfully sign up");
-      setIsSubmmiting(false);
-      setCookie("token", token);
+      setCookie("token", token, { path: "/" });
       setAuth({ user, isAuthenticated: true, status: "resolved" });
       navigate("/note", { replace: true });
     } catch (err) {
@@ -89,36 +67,34 @@ function Signup() {
   }
 
   return (
-    <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
+    <form className="flex flex-col space-y-3" onSubmit={handleSubmit(onSubmit)}>
       <input
+        {...register("username")}
         type="text"
         placeholder="Username"
         className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
       />
-      {usernameErr ? (
-        <p className="text-red-500 text-sm">{usernameErr}</p>
+      {usernameErrMsg ? (
+        <p className="text-red-500 text-sm">{usernameErrMsg}</p>
       ) : null}
       <input
+        {...register("email")}
         type="email"
         placeholder="Email"
         className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
       />
-      {emailErr ? <p className="text-red-500 text-sm">{emailErr}</p> : null}
+      {emailErrMsg ? (
+        <p className="text-red-500 text-sm">{emailErrMsg}</p>
+      ) : null}
       <input
+        {...register("password")}
         type="password"
         placeholder="Password"
         className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
       />
-      {passwordErr ? (
-        <p className="text-red-500 text-sm">{passwordErr}</p>
+      {passwordErrMsg ? (
+        <p className="text-red-500 text-sm">{passwordErrMsg}</p>
       ) : null}
-
       <input
         type="submit"
         value={isSubmitting ? "Loading..." : "Create account"}

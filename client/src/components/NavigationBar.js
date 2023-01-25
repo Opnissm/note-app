@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import api from "../axiosConfig/axiosConfig";
+import api from "../axios_config/axiosConfig";
 import { useAuth } from "../context/auth-context";
 import LogoutButton from "./Button/LogoutButton";
 

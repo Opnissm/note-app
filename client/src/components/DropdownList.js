@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import api from "../axiosConfig/axiosConfig";
+import api from "../axios_config/axiosConfig";
 import EditIcon from "../assets/editing.png";
 import DeleteIcon from "../assets/delete.png";
 import { useNavigate } from "react-router";

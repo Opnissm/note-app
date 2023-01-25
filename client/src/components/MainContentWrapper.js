@@ -3,7 +3,7 @@ import { useOutletContext, useParams } from "react-router";
 import TinyEditor from "./TinyEditor";
 import NoteTitle from "./NoteTitle";
 import { findNote } from "../utilities/utils";
-import api from "../axiosConfig/axiosConfig";
+import api from "../axios_config/axiosConfig";
 import Popup from "./Popup";
 
 function MainContentWrapper() {
