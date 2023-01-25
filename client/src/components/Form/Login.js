@@ -1,38 +1,62 @@
 import React, { useEffect, useRef, useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import { useCookies } from "react-cookie";
 import { Navigate } from "react-router";
+import { useForm } from "react-hook-form";
 import api from "../../axiosConfig/axiosConfig.js";
 import { useAuth } from "../../context/auth-context.js";
 
+const schema = yup
+  .object({
+    username: yup.string().required("Username is required"),
+    password: yup.string().required("Password is required"),
+  })
+  .required();
+
 function Login() {
   const [, setCookie] = useCookies(["token"]);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [isSubmitting, setIsSubmmiting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState(null);
-  const usernameFieldRef = useRef(null);
+  const {
+    setError,
+    setFocus,
+    register,
+    watch,
+    handleSubmit,
+    clearErrors,
+    formState: { isSubmitting, errors, isValidating },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
   const { isAuthenticated, setAuth } = useAuth();
 
+  const usernameErrMsg = errors?.username?.message;
+  const passwordErrMsg = errors?.password?.message;
+  const backendFormErrMsg = errors?.backendFormErrMsg?.message;
   useEffect(() => {
-    usernameFieldRef.current.focus();
-  }, []);
-
-  async function handleSubmit(e) {
-    e.preventDefault();
-    if (!username || !password) {
-      return setErrorMsg("Username and Password are required");
+    if (usernameErrMsg || passwordErrMsg) {
+      setError("backendFormErrMsg");
+      return;
     }
-    setIsSubmmiting(true);
-    const { data } = await api.post("/login", {
-      username,
-      password,
-    });
-    const { errorMsg, token, user } = data;
+  }, [usernameErrMsg, passwordErrMsg]);
 
-    setIsSubmmiting(false);
-    if (errorMsg) return setErrorMsg(errorMsg);
-    setCookie("token", token, { path: "/" });
-    setAuth({ user, isAuthenticated: true, status: "resolved" });
+  async function onSubmit(data) {
+    const { username, password } = data;
+    try {
+      const { data } = await api.post("/login", {
+        username,
+        password,
+      });
+      const { errorMsg, token, user } = data;
+
+      if (errorMsg) {
+        setError("backendFormErrMsg", { message: errorMsg });
+        return;
+      }
+      setCookie("token", token, { path: "/" });
+      setAuth({ user, isAuthenticated: true, status: "resolved" });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   if (isAuthenticated) {
@@ -40,23 +64,28 @@ function Login() {
   }
 
   return (
-    <form className="flex flex-col space-y-3" onSubmit={handleSubmit}>
+    <form className="flex flex-col space-y-3" onSubmit={handleSubmit(onSubmit)}>
       <input
-        ref={usernameFieldRef}
+        {...register("username")}
         type="text"
+        className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
         placeholder="Username"
-        className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
       />
+      {usernameErrMsg ? (
+        <p className="text-red-500 text-sm">{usernameErrMsg}</p>
+      ) : null}
       <input
+        {...register("password")}
         type="password"
-        placeholder="Password"
         className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        placeholder="Password"
       />
-      {errorMsg ? <p className="text-red-500">{errorMsg}</p> : null}
+      {passwordErrMsg ? (
+        <p className="text-red-500 text-sm">{passwordErrMsg}</p>
+      ) : null}
+      {backendFormErrMsg ? (
+        <p className="text-red-500 text-sm">{backendFormErrMsg}</p>
+      ) : null}
       <input
         type="submit"
         value={`${isSubmitting ? "Loading..." : "Login"}`}

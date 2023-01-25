@@ -15,6 +15,7 @@ function AuthenticatedPage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
+
   function handleNoteDeleting(booleanVal) {
     setIsDeleting(booleanVal);
   }
