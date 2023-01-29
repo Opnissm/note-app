@@ -1,10 +1,12 @@
 const bcrypt = require("bcrypt");
+const Sib = require("sib-api-v3-sdk");
 const jwt = require("jsonwebtoken");
 const Note = require("../models/note.js");
 const User = require("../models/user.js");
-
-const saltRounds = 10;
-
+const {
+  requestPasswordReset,
+  resetPassword,
+} = require("../services/forgot-password-auth");
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
   let errorMsg = null;
@@ -96,7 +98,10 @@ exports.signup = async (req, res, next) => {
       throw new Error();
     }
 
-    const hashPassword = await bcrypt.hash(password, saltRounds);
+    const hashPassword = await bcrypt.hash(
+      password,
+      Number(process.env.SALT_ROUNDS)
+    );
 
     const newUser = new User({ username, email, password: hashPassword });
 
@@ -138,6 +143,23 @@ exports.signup = async (req, res, next) => {
       user: null,
     });
   }
+};
+
+exports.resetPasswordRequestController = async (req, res, next) => {
+  const requestPasswordResetService = await requestPasswordReset(
+    "bossymassy@gmail.com"
+  );
+
+  return res.json(requestPasswordResetService);
+};
+
+exports.resetPasswordController = async (req, res, next) => {
+  const resetPasswordService = await resetPassword(
+    req.body.userId,
+    req.body.token,
+    req.body.password
+  );
+  return res.json(resetPasswordService);
 };
 
 exports.isLoggedIn = async (req, res, next) => {
