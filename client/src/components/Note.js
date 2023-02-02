@@ -36,9 +36,9 @@ function Note({
       className={({ isActive }) =>
         `${
           isActive ? "ring-1 ring-amber-400 bg-green-50 font-semibold" : ""
-        } px-3 py-2 hover:bg-slate-100 rounded-md flex flex-row items-center justify-between relative `
+        } px-3 py-2 hover:bg-slate-100 rounded-md flex flex-row items-center justify-between relative`
       }
-      onMouseOver={() => handleShowHorizontalEllipsis(true)}
+      onMouseEnter={() => handleShowHorizontalEllipsis(true)}
       onMouseLeave={() => handleShowHorizontalEllipsis(false)}
     >
       <p className="text-ellipsis overflow-hidden w-[80%] whitespace-nowrap">
@@ -65,7 +65,7 @@ function Note({
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
               setNotes={setNotes}
               handleShowRenameTitleForm={handleShowRenameTitleForm}
-              isOnTreshold={isOnTreshold ? "bottom-7" : "top-8"}
+              isOnTreshold={isOnTreshold ? "bottom-7  " : "top-8"}
             />
           ) : (
             <DropdownList

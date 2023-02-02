@@ -4,16 +4,19 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import AuthenticatedPage from "./AuthenticatedPage";
+import AuthenticatedPage from "./components/pages/AuthenticatedPage";
 import MainContentWrapper from "./components/MainContentWrapper";
 import { AuthProvider } from "./context/auth-context";
-import UnauthenticatedPage from "./UnauthenticatedPage";
+import UnauthenticatedPage from "./components/pages/UnauthenticatedPage";
+import UnauthenticatedPageWrapper from "./components/pages/wrappers/UnauthenticatedPageWrapper";
+import ForgotPassword from "./components/Form/ForgotPassword";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AuthProvider />}>
-      <Route path="/" element={<UnauthenticatedPage />}>
-        <Route path="forgot-password" element={<h1>Sike</h1>} />
+      <Route element={<UnauthenticatedPageWrapper />}>
+        <Route path="/" element={<UnauthenticatedPage />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
       </Route>
       <Route path="/note" element={<AuthenticatedPage />}>
         <Route path=":noteId" element={<MainContentWrapper />} />
