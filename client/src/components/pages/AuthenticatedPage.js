@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import NavigationBar from "../NavigationBar";
 import { useAuth } from "../../context/auth-context";
-import api from "../../axios_config/axiosConfig";
+import api from "../../axios_config/api";
 import AuthenticatedPageWrapper from "./wrappers/AuthenticatedPageWrapper";
 
 function AuthenticatedPage() {

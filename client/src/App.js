@@ -10,6 +10,7 @@ import { AuthProvider } from "./context/auth-context";
 import UnauthenticatedPage from "./components/pages/UnauthenticatedPage";
 import UnauthenticatedPageWrapper from "./components/pages/wrappers/UnauthenticatedPageWrapper";
 import ForgotPassword from "./components/Form/ForgotPassword";
+import PasswordReset from "./components/Form/PasswordReset";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,6 +18,7 @@ const router = createBrowserRouter(
       <Route element={<UnauthenticatedPageWrapper />}>
         <Route path="/" element={<UnauthenticatedPage />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/passwordReset" element={<PasswordReset />} />
       </Route>
       <Route path="/note" element={<AuthenticatedPage />}>
         <Route path=":noteId" element={<MainContentWrapper />} />

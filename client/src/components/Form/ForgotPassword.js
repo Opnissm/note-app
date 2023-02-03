@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Link } from "react-router-dom";
-import api from "../../axios_config/axiosConfig";
+import { Link, useNavigate } from "react-router-dom";
+import api from "../../axios_config/api";
 import SuccessfulRequestPassword from "./SuccessfulRequestPassword";
 const schema = yup.object({
   email: yup.string().required("Email is required"),
 });
 function ForgotPassword() {
   const [isRequestSuccessful, setIsRequestSuccessful] = useState(false);
+  const navigate = useNavigate();
   const {
     setError,
     setFocus,
@@ -26,13 +27,17 @@ function ForgotPassword() {
   async function onSubmit(data) {
     try {
       const { email } = data;
-      const { data: responseData } = await api.post("/forgot-password", {
+      const { data: responseData } = await api.post("/forgotPassword", {
         email,
       });
 
-      setIsRequestSuccessful(responseData.isSuccessful);
+      const { isSuccessful, errorMsg } = responseData;
+      if (!isSuccessful) {
+        alert(errorMsg);
+        return;
+      }
 
-      console.log(responseData);
+      setIsRequestSuccessful(isSuccessful);
     } catch (err) {
       console.log(err);
     }
@@ -45,6 +50,9 @@ function ForgotPassword() {
       onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className="text-lg font-bold text-amber-400">Forgot password</h1>
+      <p className="text-sm font-thin">
+        Enter your email to send the password reset link
+      </p>
       <input
         {...register("email")}
         type="text"
@@ -54,8 +62,11 @@ function ForgotPassword() {
       {emailErr ? <p className="text-red-500 text-sm">{emailErr}</p> : null}
       <input
         type="submit"
-        value="Password Reset Request"
-        className="text-lg bg-amber-400 px-3 py-2 text-white rounded-md cursor-pointer outline-none hover:bg-amber-500 focus:ring-2 focus:ring-amber-200 hover:shadow-md"
+        value={`${isSubmitting ? "Loading..." : "Password Reset Request"}`}
+        disabled={isSubmitting}
+        className={`${
+          isSubmitting ? "opacity-70" : ""
+        } bg-amber-400 text-lg  px-3 py-2 text-white rounded-md cursor-pointer outline-none hover:bg-amber-500 focus:ring-2 focus:ring-amber-200 hover:shadow-md`}
       />
       <Link to="/" className="text-purple-600 text-sm font-thin">
         Back

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import api from "../axios_config/axiosConfig";
+import api from "../axios_config/api";
 import Popup from "./Popup";
 
 function RenameTitle({

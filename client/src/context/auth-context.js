@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Outlet } from "react-router-dom";
-import api from "../axios_config/axiosConfig";
+import api from "../axios_config/api";
 
 const AuthContext = createContext();
 AuthContext.displayName = "AuthContext";
@@ -30,7 +30,6 @@ function AuthProvider() {
     api
       .post("/auth")
       .then((res) => {
-        console.log(res.data.authenticated);
         if (!res.data.authenticated) {
           return setAuth({
             user: null,
@@ -48,7 +47,7 @@ function AuthProvider() {
 
   return (
     <AuthContext.Provider value={value}>
-      {status === "idle" || status === "loading" ? <h1>Loading...</h1> : null}
+      {status === "idle" || (status === "loading" && <h1>Loading...</h1>)}
       {status === "resolved" && <Outlet />}
     </AuthContext.Provider>
   );

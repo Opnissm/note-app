@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useCookies } from "react-cookie";
 import { Navigate } from "react-router";
 import { useForm } from "react-hook-form";
-import api from "../../axios_config/axiosConfig.js";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import api from "../../axios_config/api.js";
 import { useAuth } from "../../context/auth-context.js";
-
 const schema = yup
   .object({
     username: yup.string().required("Username is required"),
