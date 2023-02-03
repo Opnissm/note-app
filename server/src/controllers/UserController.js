@@ -7,6 +7,9 @@ const {
   requestPasswordReset,
   resetPassword,
 } = require("../services/forgot-password-auth");
+const {
+  validatePasswordRequestToken,
+} = require("../utils/validatePasswordRequestToken");
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
   let errorMsg = null;
@@ -146,14 +149,22 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.resetPasswordRequestController = async (req, res, next) => {
-  const requestPasswordResetService = await requestPasswordReset(
-    "bossymassy@gmail.com"
-  );
-
-  return res.json(requestPasswordResetService);
+  const { email } = req.body;
+  const requestPasswordService = await requestPasswordReset(email);
+  return res.json(requestPasswordService);
 };
 
+exports.validatePasswordResetTokenController = async (req, res, next) => {
+  try {
+    const isValid = await validatePasswordRequestToken(
+      req.body.userId,
+      req.body.token
+    );
+    return res.json({ isValid });
+  } catch (err) {}
+};
 exports.resetPasswordController = async (req, res, next) => {
+  console.log(req.body);
   const resetPasswordService = await resetPassword(
     req.body.userId,
     req.body.token,

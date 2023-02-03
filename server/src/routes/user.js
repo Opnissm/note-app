@@ -9,6 +9,13 @@ router.post("/signup", UserController.signup);
 
 router.post("/auth", UserController.isLoggedIn);
 
-router.post("/forgot-password", UserController.resetPasswordRequestController);
+router.post("/forgotPassword", UserController.resetPasswordRequestController);
+
+router.post("/resetPassword", UserController.resetPasswordController);
+
+router.post(
+  "/validateRequestPasswordToken",
+  UserController.validatePasswordResetTokenController
+);
 
 module.exports = router;

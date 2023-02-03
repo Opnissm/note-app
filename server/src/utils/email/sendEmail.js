@@ -1,7 +1,6 @@
 const Sib = require("sib-api-v3-sdk");
 
 const sendEmail = async (email, subject, { name, link }, template) => {
-  console.log(email, link);
   const client = Sib.ApiClient.instance;
   const apiKey = client.authentications["api-key"];
   apiKey.apiKey = process.env.SENDINBLUE_API_KEY;
