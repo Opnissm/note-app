@@ -3,9 +3,10 @@ import api from "../axios_config/api";
 import EditIcon from "../assets/editing.png";
 import DeleteIcon from "../assets/delete.png";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { deleteNote } from "../features/note/noteSlice";
 function DropdownList({
   noteId,
-  setNotes,
   isOnTreshold,
   handleNoteDropdownIndex,
   handleShowRenameTitleForm,
@@ -13,30 +14,46 @@ function DropdownList({
   setNoteIdDelete,
 }) {
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   async function onDeleteNote() {
-    handleNoteDeleting(true);
-    setNoteIdDelete(noteId);
-    api
-      .delete("/notes", {
-        data: { noteId },
-      })
-      .then(({ data }) => {
-        if (!data.notes.length) {
-          navigate("/note", { replace: true });
-          setNotes({ data: [], status: "resolved" });
-          return;
-        }
-        setNotes({ data: data.notes, status: "resolved" });
-        const firstNoteId = data.notes[0]._id;
-        navigate(`/note/${firstNoteId}`, { replace: true });
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        handleNoteDeleting(false);
-        handleNoteDropdownIndex(null);
-        setNoteIdDelete(null);
-      });
+    try {
+      handleNoteDeleting(true);
+      setNoteIdDelete(noteId);
+      const notes = await dispatch(deleteNote(noteId)).unwrap();
+      if (!notes.length) {
+        navigate("/note", { replace: true });
+        return;
+      }
+      const firstNoteId = notes[0]._id;
+      navigate(`/note/${firstNoteId}`, { replace: true });
+    } catch (err) {
+      console.log(err);
+    } finally {
+      handleNoteDeleting(false);
+      handleNoteDropdownIndex(null);
+      setNoteIdDelete(null);
+    }
+
+    // api
+    //   .delete("/notes", {
+    //     data: { noteId },
+    //   })
+    //   .then(({ data }) => {
+    //     if (!data.notes.length) {
+    //       navigate("/note", { replace: true });
+    //       setNotes({ data: [], status: "resolved" });
+    //       return;
+    //     }
+    //     setNotes({ data: data.notes, status: "resolved" });
+    //     const firstNoteId = data.notes[0]._id;
+    //     navigate(`/note/${firstNoteId}`, { replace: true });
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => {
+    // handleNoteDeleting(false);
+    // handleNoteDropdownIndex(null);
+    // setNoteIdDelete(null);
+    //   });
   }
 
   return (

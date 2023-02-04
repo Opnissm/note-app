@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import api from "../axios_config/api";
+import { useDispatch } from "react-redux";
+import { updateNote } from "../features/note/noteSlice";
 import Popup from "./Banner";
 
 function RenameTitle({
@@ -16,6 +17,7 @@ function RenameTitle({
   const [isDirty, setIsDirty] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
   const renameLoadingStyle = isRenaming
     ? "bg-slate-100 text-black hover"
     : "hover:bg-amber-400 hover:text-white";
@@ -32,29 +34,29 @@ function RenameTitle({
     }
   }
 
-  function handleRenameSubmit() {
+  async function handleRenameSubmit() {
     setIsRenaming(true);
-    api
-      .put("/notes", {
-        noteId,
-        title: renameTitle,
-        updateField: "title",
-      })
-      .then(({ data }) => {
-        console.log(data);
-        if (data.titleErr) {
-          setErrorMsg(data.titleErr);
-          return;
-        }
-        setNotes({ data: data.notes, status: "resolved" });
-        handleNoteDropdownIndex(null);
-        handleShowRenameTitleForm(false);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        handleShowHorizontalEllipsis(false);
-        setIsRenaming(false);
-      });
+    try {
+      const data = await dispatch(
+        updateNote({
+          noteId,
+          newTitle: renameTitle,
+          updateField: "title",
+        })
+      ).unwrap();
+
+      console.log(data);
+      if (data.titleErr) {
+        setErrorMsg(data.titleErr);
+        return;
+      }
+      handleNoteDropdownIndex(null);
+      handleShowRenameTitleForm(false);
+    } catch (err) {
+    } finally {
+      handleShowHorizontalEllipsis(false);
+      setIsRenaming(false);
+    }
   }
 
   useEffect(() => {

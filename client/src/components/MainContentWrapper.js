@@ -5,12 +5,14 @@ import NoteTitle from "./NoteTitle";
 import { findNote } from "../utilities/utils";
 import api from "../axios_config/api";
 import Banner from "./Banner";
+import { useSelector } from "react-redux";
 
 function MainContentWrapper() {
-  const { notes, setNotes, isDeleting, noteIdDelete } = useOutletContext();
+  const { isDeleting, noteIdDelete } = useOutletContext();
   const [isSaving, setIsSaving] = useState(false);
   const [editorRef, setEditorRef] = useState(null);
   const { noteId } = useParams();
+  const { notes, status } = useSelector((state) => state.note);
 
   const note = useMemo(() => findNote(notes, noteId), [notes, noteId]);
 
@@ -24,7 +26,7 @@ function MainContentWrapper() {
         updateField: "content",
       })
       .then(({ data }) => {
-        setNotes({ data: data.notes, status: "resolved" });
+        // setNotes({ data: data.notes, status: "resolved" });
       })
       .catch((err) => console.log(err))
       .finally(() => setIsSaving(false));
@@ -34,7 +36,7 @@ function MainContentWrapper() {
     setEditorRef(editor);
   }
 
-  return (
+  return note ? (
     <>
       <NoteTitle
         title={note.title}
@@ -55,7 +57,7 @@ function MainContentWrapper() {
         />
       ) : null}
     </>
-  );
+  ) : null;
 }
 
 export default MainContentWrapper;
