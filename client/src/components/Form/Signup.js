@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -20,6 +20,7 @@ const schema = yup
 function Signup() {
   const {
     register,
+    setFocus,
     setError,
     handleSubmit,
     formState: { isSubmitting, errors },
@@ -33,6 +34,9 @@ function Signup() {
   const usernameErrMsg = errors?.username?.message;
   const emailErrMsg = errors?.email?.message;
   const passwordErrMsg = errors?.password?.message;
+  useEffect(() => {
+    setFocus("username");
+  }, []);
 
   async function onSubmit(data) {
     const { username, email, password } = data;

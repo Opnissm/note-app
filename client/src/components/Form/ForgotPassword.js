@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../../axios_config/api";
 import SuccessfulRequestPassword from "./SuccessfulRequestPassword";
+
 const schema = yup.object({
   email: yup.string().required("Email is required"),
 });
@@ -24,6 +25,10 @@ function ForgotPassword() {
   });
 
   const emailErr = errors?.email?.message;
+
+  useEffect(() => {
+    setFocus("email");
+  }, []);
   async function onSubmit(data) {
     try {
       const { email } = data;

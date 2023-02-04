@@ -1,10 +1,10 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useOutletContext, useParams } from "react-router";
-import TinyEditor from "./TinyEditor";
+import TinyEditor from "./Editor/TinyEditor";
 import NoteTitle from "./NoteTitle";
 import { findNote } from "../utilities/utils";
 import api from "../axios_config/api";
-import Popup from "./Popup";
+import Banner from "./Banner";
 
 function MainContentWrapper() {
   const { notes, setNotes, isDeleting, noteIdDelete } = useOutletContext();
@@ -49,7 +49,7 @@ function MainContentWrapper() {
         isDeleting={isDeleting}
       />
       {isDeleting && noteIdDelete === noteId ? (
-        <Popup
+        <Banner
           message="Deleting"
           className="text-center top-[10%] absolute bg-red-500 text-white w-full z-10"
         />

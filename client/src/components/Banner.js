@@ -1,6 +1,6 @@
 import React from "react";
 
-function Popup({ message, ...props }) {
+function Banner({ message, ...props }) {
   return (
     <div {...props}>
       <p>{message}</p>
@@ -8,4 +8,4 @@ function Popup({ message, ...props }) {
   );
 }
 
-export default Popup;
+export default Banner;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import api from "../axios_config/api";
-import Popup from "./Popup";
+import Popup from "./Banner";
 
 function RenameTitle({
   noteId,

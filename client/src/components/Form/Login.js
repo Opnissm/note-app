@@ -38,6 +38,9 @@ function Login() {
     }
   }, [usernameErrMsg, passwordErrMsg]);
 
+  useEffect(() => {
+    setFocus("username");
+  }, []);
   async function onSubmit(data) {
     const { username, password } = data;
     try {

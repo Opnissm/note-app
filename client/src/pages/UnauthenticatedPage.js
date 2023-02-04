@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import Logo from "../../assets/logo.png";
-import NavigateFormWrapper from "../Form/NavigateFormWrapper";
-import { Outlet, useLocation } from "react-router";
-import FormManager from "../Form/FormManager";
+import Logo from "../assets/logo.png";
+import NavigateFormWrapper from "../components/Form/NavigateFormWrapper";
+import FormManager from "../components/Form/FormManager";
 
 function UnauthenticatedPage() {
   const [formDisplay, setFormDisplay] = useState("login");
-  const location = useLocation();
 
   function handleFormDisplay(formName) {
     setFormDisplay(formName);
