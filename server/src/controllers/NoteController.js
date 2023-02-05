@@ -38,14 +38,14 @@ exports.updateNote = async (req, res, next) => {
     let updateObject;
 
     if (updateField === "title") {
-      if (!req.body.title) {
+      if (!req.body.noteData) {
         titleErr = "Title can't be empty";
         throw new Error();
       } else {
-        updateObject = { title: req.body.title };
+        updateObject = { title: req.body.noteData };
       }
     } else if (updateField === "content") {
-      updateObject = { content: req.body.content };
+      updateObject = { content: req.body.noteData };
     }
 
     await Note.findOneAndUpdate(

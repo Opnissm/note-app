@@ -1,5 +1,4 @@
 const bcrypt = require("bcrypt");
-const Sib = require("sib-api-v3-sdk");
 const jwt = require("jsonwebtoken");
 const Note = require("../models/note.js");
 const User = require("../models/user.js");
@@ -7,6 +6,7 @@ const {
   requestPasswordReset,
   resetPassword,
 } = require("../services/forgot-password-auth");
+const { generateJWT } = require("../utils/generateJWT");
 const {
   validatePasswordRequestToken,
 } = require("../utils/validatePasswordRequestToken");
@@ -39,7 +39,6 @@ exports.login = async (req, res, next) => {
       errorMsg = "Incorrect password";
       throw new Error();
     }
-
     const token = generateJWT({
       userId,
       username: usernameInDb,
@@ -164,7 +163,6 @@ exports.validatePasswordResetTokenController = async (req, res, next) => {
   } catch (err) {}
 };
 exports.resetPasswordController = async (req, res, next) => {
-  console.log(req.body);
   const resetPasswordService = await resetPassword(
     req.body.userId,
     req.body.token,
@@ -192,10 +190,3 @@ exports.isLoggedIn = async (req, res, next) => {
     });
   }
 };
-
-function generateJWT(payload) {
-  const token = jwt.sign(payload, process.env.SECRET_SIGNATURE, {
-    expiresIn: "1h",
-  });
-  return token;
-}
