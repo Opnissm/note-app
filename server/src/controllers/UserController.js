@@ -20,7 +20,6 @@ exports.login = async (req, res, next) => {
     }
 
     const user = await User.findOne({ username });
-
     if (!user) {
       errorMsg = "Username doesn't exist";
       throw new Error();
