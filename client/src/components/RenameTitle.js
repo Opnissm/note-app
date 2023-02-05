@@ -40,7 +40,7 @@ function RenameTitle({
       const data = await dispatch(
         updateNote({
           noteId,
-          newTitle: renameTitle,
+          noteData: renameTitle,
           updateField: "title",
         })
       ).unwrap();

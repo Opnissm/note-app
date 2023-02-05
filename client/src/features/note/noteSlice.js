@@ -24,10 +24,10 @@ export const deleteNote = createAsyncThunk("deleteNote", async (noteId) => {
 
 export const updateNote = createAsyncThunk(
   "updateNote",
-  async ({ noteId, newTitle, updateField }) => {
+  async ({ noteId, noteData, updateField }) => {
     const { data } = await api.put("/notes", {
       noteId,
-      title: newTitle,
+      noteData,
       updateField,
     });
     return data.notes;
@@ -51,7 +51,6 @@ export const noteSlice = createSlice({
       state.notes = action.payload;
     });
     builder.addCase(deleteNote.fulfilled, (state, action) => {
-      console.log(action.payload, "fulfiled");
       state.notes = action.payload;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
