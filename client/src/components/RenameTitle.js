@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleDropdownIndex,
+  handleShowRenameTitleDropdown,
+} from "../features/dropdown/dropdownSlice";
 import { updateNote } from "../features/note/noteSlice";
-import Popup from "./Banner";
+import Banner from "./Banner";
 
 function RenameTitle({
   noteId,
   title,
-  handleNoteDropdownIndex,
-  setNotes,
   handleShowHorizontalEllipsis,
-  handleShowRenameTitleForm,
   isOnTreshold,
 }) {
   const [renameTitle, setRenameTitle] = useState(title);
@@ -17,6 +18,7 @@ function RenameTitle({
   const [isDirty, setIsDirty] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const inputRef = useRef(null);
+
   const dispatch = useDispatch();
   const renameLoadingStyle = isRenaming
     ? "bg-slate-100 text-black hover"
@@ -35,6 +37,7 @@ function RenameTitle({
   }
 
   async function handleRenameSubmit() {
+    if (!renameTitle) return setErrorMsg("Title can't be empty");
     setIsRenaming(true);
     try {
       const data = await dispatch(
@@ -45,13 +48,12 @@ function RenameTitle({
         })
       ).unwrap();
 
-      console.log(data);
-      if (data.titleErr) {
+      if (data?.titleErr) {
         setErrorMsg(data.titleErr);
         return;
       }
-      handleNoteDropdownIndex(null);
-      handleShowRenameTitleForm(false);
+      dispatch(handleDropdownIndex(null));
+      dispatch(handleShowRenameTitleDropdown(false));
     } catch (err) {
     } finally {
       handleShowHorizontalEllipsis(false);
@@ -62,14 +64,13 @@ function RenameTitle({
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-  console.log(isOnTreshold);
   return (
     <div
       className={`${isOnTreshold} right-1 px-3 py-1 absolute shadow-xl bg-white w-48 z-30 border rounded-md flex flex-col h-max`}
     >
       <h1 className="font-thin">Rename Title</h1>
       {errorMsg ? (
-        <Popup
+        <Banner
           message={errorMsg}
           className="bg-red-400 text-white mb-2 rounded-md p-1 cursor-default text-sm"
         />

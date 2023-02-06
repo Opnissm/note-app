@@ -1,31 +1,20 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import HorizontalEllipsis from "../assets/dots.png";
+import {
+  handleDropdownIndex,
+  handleDropdownTreshold,
+} from "../features/dropdown/dropdownSlice";
 import DropdownList from "./DropdownList";
 import Overlay from "./Overlay";
 import RenameTitle from "./RenameTitle";
-function Note({
-  id,
-  title,
-  idx,
-  noteDropdownIndex,
-  handleNoteDropdownIndex,
-  setNotes,
-  setNoteIdDelete,
-  handleNoteDeleting,
-}) {
-  const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
-  const [showRenameTitleForm, setShowRenameTitleForm] = useState(false);
-  const [isOnTreshold, setIsOnTreshold] = useState(false);
-  // console.log(showHorizontalEllipsis);
-  function handleDropdownTreshold(element) {
-    if (element.pageY >= 420) return setIsOnTreshold(true);
-    setIsOnTreshold(false);
-  }
 
-  function handleShowRenameTitleForm(booleanVal) {
-    setShowRenameTitleForm(booleanVal);
-  }
+function Note({ id, title, idx, setNoteIdDelete, handleNoteDeleting }) {
+  const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
+  const { noteDropdownIndex, showRenameTitleDropdown, isOnTreshold } =
+    useSelector((state) => state.dropdown);
+  const dispatch = useDispatch();
 
   function handleShowHorizontalEllipsis(booleanVal) {
     setShowHorizontalEllipsis(booleanVal);
@@ -48,8 +37,8 @@ function Note({
         <span
           className="w-5 hover:bg-slate-200 rounded-sm z-20"
           onClick={(e) => {
-            handleDropdownTreshold(e);
-            handleNoteDropdownIndex(idx);
+            dispatch(handleDropdownTreshold(e.pageY));
+            dispatch(handleDropdownIndex(idx));
           }}
         >
           <img src={HorizontalEllipsis} className="w-full" />
@@ -57,33 +46,24 @@ function Note({
       )}
       {idx === noteDropdownIndex && (
         <>
-          {showRenameTitleForm ? (
+          {showRenameTitleDropdown ? (
             <RenameTitle
               title={title}
               noteId={id}
-              handleNoteDropdownIndex={handleNoteDropdownIndex}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
-              setNotes={setNotes}
-              handleShowRenameTitleForm={handleShowRenameTitleForm}
               isOnTreshold={isOnTreshold ? "bottom-7  " : "top-8"}
             />
           ) : (
             <DropdownList
               noteId={id}
-              noteDropdownIndex={noteDropdownIndex}
-              handleNoteDropdownIndex={handleNoteDropdownIndex}
-              setNotes={setNotes}
               isOnTreshold={isOnTreshold ? "bottom-7" : "top-8"}
-              handleShowRenameTitleForm={handleShowRenameTitleForm}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
               handleNoteDeleting={handleNoteDeleting}
               setNoteIdDelete={setNoteIdDelete}
             />
           )}
           <Overlay
-            handleNoteDropdownIndex={handleNoteDropdownIndex}
             handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
-            handleShowRenameTitleForm={handleShowRenameTitleForm}
           />
         </>
       )}

@@ -26,7 +26,7 @@ function Login() {
   } = useForm({
     resolver: yupResolver(schema),
   });
-  const { isAuthenticated, setAuth } = useAuth();
+  const { isAuthenticated, setAuth, user } = useAuth();
 
   const usernameErrMsg = errors?.username?.message;
   const passwordErrMsg = errors?.password?.message;

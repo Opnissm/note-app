@@ -1,16 +1,18 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import {
+  handleDropdownIndex,
+  handleShowRenameTitleDropdown,
+} from "../features/dropdown/dropdownSlice";
 
-function Overlay({
-  handleNoteDropdownIndex,
-  handleShowHorizontalEllipsis,
-  handleShowRenameTitleForm,
-}) {
+function Overlay({ handleShowHorizontalEllipsis, handleShowRenameTitleForm }) {
+  const dispatch = useDispatch();
   return (
     <div
       onClick={() => {
-        handleNoteDropdownIndex(null);
+        dispatch(handleDropdownIndex(null));
+        dispatch(handleShowRenameTitleDropdown(false));
         handleShowHorizontalEllipsis(false);
-        handleShowRenameTitleForm(false);
       }}
       className="fixed top-0 bottom-0 left-0 right-0 z-10 cursor-default"
     />

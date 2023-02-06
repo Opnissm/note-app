@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router";
 import api from "../../axios_config/api";
 
 const initialState = {
@@ -8,18 +9,17 @@ const initialState = {
 
 export const getNotes = createAsyncThunk("getNotes", async (userId) => {
   const { data } = await api.get("/notes", { params: { userId } });
-  return data.notes;
+  return data;
 });
 
 export const addNote = createAsyncThunk("addNote", async () => {
   const { data } = await api.post("/notes");
-  return data.notes;
+  return data;
 });
 
 export const deleteNote = createAsyncThunk("deleteNote", async (noteId) => {
   const { data } = await api.delete("/notes", { data: { noteId } });
-  console.log(data);
-  return data.notes;
+  return data;
 });
 
 export const updateNote = createAsyncThunk(
@@ -30,7 +30,8 @@ export const updateNote = createAsyncThunk(
       noteData,
       updateField,
     });
-    return data.notes;
+
+    return data;
   }
 );
 
@@ -40,21 +41,23 @@ export const noteSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getNotes.fulfilled, (state, action) => {
-      console.log(state.notes);
-      state.notes = action.payload;
+      state.notes = action.payload.notes;
       state.status = "resolved";
     });
     builder.addCase(getNotes.pending, (state, action) => {
       state.status = "loading";
     });
     builder.addCase(addNote.fulfilled, (state, action) => {
-      state.notes = action.payload;
+      state.notes = action.payload.notes;
     });
     builder.addCase(deleteNote.fulfilled, (state, action) => {
-      state.notes = action.payload;
+      state.notes = action.payload.notes;
     });
     builder.addCase(updateNote.fulfilled, (state, action) => {
-      state.notes = action.payload;
+      if (action.payload?.titleErr) {
+        return;
+      }
+      state.notes = action.payload.notes;
     });
   },
 });

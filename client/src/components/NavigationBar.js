@@ -11,13 +11,13 @@ function NavigationBar({ handleNoteDeleting, setNoteIdDelete }) {
   const dispatch = useDispatch();
   async function onAddNoteClick() {
     try {
-      const notes = await dispatch(addNote()).unwrap();
+      const { notes } = await dispatch(addNote()).unwrap();
       if (notes.length === 1) {
         const firstNoteId = notes[0]._id;
         navigate(`/note/${firstNoteId}`, { replace: true });
       }
     } catch (err) {
-    } finally {
+      console.log(err);
     }
   }
   return (

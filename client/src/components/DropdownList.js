@@ -5,11 +5,13 @@ import DeleteIcon from "../assets/delete.png";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 import { deleteNote } from "../features/note/noteSlice";
+import {
+  handleDropdownIndex,
+  handleShowRenameTitleDropdown,
+} from "../features/dropdown/dropdownSlice";
 function DropdownList({
   noteId,
   isOnTreshold,
-  handleNoteDropdownIndex,
-  handleShowRenameTitleForm,
   handleNoteDeleting,
   setNoteIdDelete,
 }) {
@@ -19,7 +21,7 @@ function DropdownList({
     try {
       handleNoteDeleting(true);
       setNoteIdDelete(noteId);
-      const notes = await dispatch(deleteNote(noteId)).unwrap();
+      const { notes } = await dispatch(deleteNote(noteId)).unwrap();
       if (!notes.length) {
         navigate("/note", { replace: true });
         return;
@@ -30,30 +32,9 @@ function DropdownList({
       console.log(err);
     } finally {
       handleNoteDeleting(false);
-      handleNoteDropdownIndex(null);
+      dispatch(handleDropdownIndex(null));
       setNoteIdDelete(null);
     }
-
-    // api
-    //   .delete("/notes", {
-    //     data: { noteId },
-    //   })
-    //   .then(({ data }) => {
-    //     if (!data.notes.length) {
-    //       navigate("/note", { replace: true });
-    //       setNotes({ data: [], status: "resolved" });
-    //       return;
-    //     }
-    //     setNotes({ data: data.notes, status: "resolved" });
-    //     const firstNoteId = data.notes[0]._id;
-    //     navigate(`/note/${firstNoteId}`, { replace: true });
-    //   })
-    //   .catch((err) => console.log(err))
-    //   .finally(() => {
-    // handleNoteDeleting(false);
-    // handleNoteDropdownIndex(null);
-    // setNoteIdDelete(null);
-    //   });
   }
 
   return (
@@ -61,7 +42,7 @@ function DropdownList({
       className={`${isOnTreshold} absolute shadow-xl bg-white right-2 w-36 z-30 border rounded-md h-20 flex flex-col`}
     >
       <li
-        onClick={() => handleShowRenameTitleForm(true)}
+        onClick={() => dispatch(handleShowRenameTitleDropdown(true))}
         className="font-normal hover:bg-slate-200 px-2 cursor-pointer flex flex-row items-center flex-1"
       >
         <div className="w-4">
