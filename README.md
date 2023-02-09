@@ -24,18 +24,25 @@ Notey is a note taking app that allows you to write note digitally.
 After you clone this repository to your machine. Next step is:
 
 1. Go to both client and server directory and install the necessary dependencies by executing 
+
   ```
-   npm install or yarn add
+    npm install
+  ``` 
+  
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or, if you're using yarn
+
+  ```
+    yarn install
   ```
 2. Start the server by going to the server directory then execute
   ```
-  npm run dev
+    npm run dev
   ```
-3. Start front-end by going to the client directory then execute
+3. Start the front-end by going to the client directory then execute
   ```
     npm start
   ```
-  Now you can go to the http://localhost:3000/ in your web browser and enjoy with the application
+  Now you can go to the http://localhost:3000 in your web browser and enjoy with the application
 
 
 
