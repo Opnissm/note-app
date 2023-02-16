@@ -34,11 +34,32 @@ After you clone this repository to your machine. Next step is:
   ```
     yarn install
   ```
-2. Start the server by going to the server directory then execute
+2. Env variables
+
+  **&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For client directory:**
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```REACT_APP_TINYMCE_API_KEY=```
+
+  **&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For server directory:**
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SALT_ROUNDS=```
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```ATLAS_URI=```
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SECRET_SIGNATURE=```
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SMTP_EMAIL=```
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```APP_NAME=Notey```
+
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SENDINBLUE_API_KEY=```
+
+
+3. Start the server by going to the server directory then execute
   ```
     npm run dev
   ```
-3. Start the front-end by going to the client directory then execute
+4. Start the front-end by going to the client directory then execute
   ```
     npm start
   ```
