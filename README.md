@@ -25,44 +25,44 @@ After you clone this repository to your machine. Next step is:
 
 1. Go to both client and server directory and install the necessary dependencies by executing 
 
-  ```
+    ```
     npm install
-  ``` 
+    ``` 
   
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;or, if you're using yarn
+    or, if you're using yarn
 
-  ```
+    ```
     yarn install
-  ```
+    ```
 2. Env variables
 
-  **&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For client directory:**
+    **For client directory:**
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```REACT_APP_TINYMCE_API_KEY=```
+    ```REACT_APP_TINYMCE_API_KEY=```
 
-  **&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;For server directory:**
+    **For server directory:**
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SALT_ROUNDS=```
+    ```SALT_ROUNDS=```
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```ATLAS_URI=```
+    ```ATLAS_URI=```
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SECRET_SIGNATURE=```
+    ```SECRET_SIGNATURE=```
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SMTP_EMAIL=```
+    ```SMTP_EMAIL=```
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```APP_NAME=Notey```
+    ```APP_NAME=Notey```
 
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```SENDINBLUE_API_KEY=```
+    ```SENDINBLUE_API_KEY=```
 
 
 3. Start the server by going to the server directory then execute
-  ```
+    ```
     npm run dev
-  ```
+    ```
 4. Start the front-end by going to the client directory then execute
-  ```
+    ```
     npm start
-  ```
+    ```
   Now you can go to the http://localhost:3000 in your web browser and enjoy with the application
 
 
