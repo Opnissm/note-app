@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
 import { useAuth } from "../context/auth-context";
-import api from "../axios_config/api";
 import { useDispatch, useSelector } from "react-redux";
 import { addNote, getNotes } from "../features/note/noteSlice";
 
@@ -10,7 +9,7 @@ function AuthenticatedPage() {
   const [noteIdDelete, setNoteIdDelete] = useState(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, setAuth } = useAuth();
   const data = useSelector((state) => {
     return state.note;
   });
@@ -20,13 +19,19 @@ function AuthenticatedPage() {
   }
   async function onAddNoteClick() {
     try {
-      const { notes } = await dispatch(addNote()).unwrap();
+      const { notes, errorMsg } = await dispatch(addNote()).unwrap();
+
+      console.log(errorMsg);
       if (notes.length === 1) {
         const firstNoteId = notes[0]._id;
         navigate(`/note/${firstNoteId}`, { replace: true });
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.message.contains("401"));
+      if (err.message.contains("401")) {
+        setAuth({ user: null, isAuthenticated: false, status: "resolved" });
+        navigate("/", { replace: true });
+      }
     }
   }
   useEffect(() => {

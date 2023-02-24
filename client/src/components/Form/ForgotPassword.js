@@ -61,7 +61,7 @@ function ForgotPassword() {
       <input
         {...register("email")}
         type="email"
-        placeholder="email"
+        placeholder="Email"
         className="outline-none text-lg px-3 py-2 bg-white border-b border-b-amber-400 focus:border-l-2 focus:border-l-amber-400 rounded-md"
       />
       {emailErr ? <p className="text-red-500 text-sm">{emailErr}</p> : null}
