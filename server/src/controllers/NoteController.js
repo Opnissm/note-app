@@ -33,19 +33,14 @@ exports.createNote = async (req, res, next) => {
 exports.updateNote = async (req, res, next) => {
   let titleErr = null;
   try {
-    const { updateField } = req.body;
+    const { title, content } = req.body;
 
-    let updateObject;
+    let updateObject = {};
 
-    if (updateField === "title") {
-      if (!req.body.noteData) {
-        titleErr = "Title can't be empty";
-        throw new Error();
-      } else {
-        updateObject = { title: req.body.noteData };
-      }
-    } else if (updateField === "content") {
-      updateObject = { content: req.body.noteData };
+    if (title) {
+      updateObject["title"] = title;
+    } else if (content) {
+      updateObject["content"] = content;
     }
 
     await Note.findOneAndUpdate(

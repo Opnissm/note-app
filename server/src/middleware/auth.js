@@ -19,6 +19,6 @@ exports.auth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    return res.json({ errorMsg: "Not authenticated" });
+    return res.status(401).json({ errorMsg: "Not authenticated" });
   }
 };

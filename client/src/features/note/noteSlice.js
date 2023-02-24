@@ -24,12 +24,17 @@ export const deleteNote = createAsyncThunk("deleteNote", async (noteId) => {
 
 export const updateNote = createAsyncThunk(
   "updateNote",
-  async ({ noteId, noteData, updateField }) => {
-    const { data } = await api.put("/notes", {
+  async ({ noteId, title, content }) => {
+    const updateNoteObj = {
       noteId,
-      noteData,
-      updateField,
-    });
+    };
+    if (title) {
+      updateNoteObj["title"] = title;
+    } else if (content) {
+      updateNoteObj["content"] = content;
+    }
+
+    const { data } = await api.put("/notes", updateNoteObj);
 
     return data;
   }

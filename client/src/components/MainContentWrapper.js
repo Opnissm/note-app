@@ -25,8 +25,7 @@ function MainContentWrapper() {
       await dispatch(
         updateNote({
           noteId: currentNoteId,
-          noteData: editorRef.getContent(),
-          updateField: "content",
+          content: editorRef.getContent(),
         })
       ).unwrap();
     } catch (err) {
