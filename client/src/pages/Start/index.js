@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import Logo from "../assets/logo.png";
-import NavigateFormWrapper from "../components/Form/NavigateFormWrapper";
-import FormManager from "../components/Form/FormManager";
+import FormManager from "./components/FormManager";
+import Logo from "../../assets/logo.png";
+import NavigateFormWrapper from "./components/NavigateFormWrapper";
 
-function UnauthenticatedPage() {
+function Start() {
   const [formDisplay, setFormDisplay] = useState("login");
 
   function handleFormDisplay(formName) {
@@ -34,5 +34,4 @@ function UnauthenticatedPage() {
     </>
   );
 }
-
-export default UnauthenticatedPage;
+export default Start;

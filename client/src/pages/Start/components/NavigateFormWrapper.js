@@ -1,11 +1,11 @@
 import React from "react";
-import CreateAccountButton from "../Button/CreateAccountButton";
-import ForgotPasswordButton from "../Button/ForgotPasswordButton";
-import LoginButton from "../Button/LoginButton";
+import CreateAccountButton from "../../../components/Button/CreateAccountButton";
+import ForgotPasswordButton from "../../../components/Button/ForgotPasswordButton";
+import LoginButton from "../../../components/Button/LoginButton";
 
 function NavigateFormWrapper({ formDisplay, onFormDisplayChange }) {
   return (
-    <div className={`flex justify-between`}>
+    <div className="flex justify-between">
       {formDisplay === "login" && (
         <>
           <CreateAccountButton onFormDisplayChange={onFormDisplayChange} />

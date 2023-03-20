@@ -3,8 +3,8 @@ import { useCookies } from "react-cookie";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useNavigate } from "react-router";
-import api from "../../axios_config/api";
-import { useAuth } from "../../context/auth-context";
+import api from "../../../axios_config/api";
+import { useAuth } from "../../../context/auth-context";
 import { useForm } from "react-hook-form";
 
 const schema = yup

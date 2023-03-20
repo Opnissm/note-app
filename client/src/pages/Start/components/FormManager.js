@@ -1,7 +1,6 @@
 import React from "react";
-import { Outlet, useLocation } from "react-router";
 import Login from "./Login";
-import Signup from "../../pages/Start/components/Signup";
+import Signup from "./Signup";
 
 function FormManager({ formDisplay }) {
   if (formDisplay === "login") {

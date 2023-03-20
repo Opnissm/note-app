@@ -7,17 +7,18 @@ import {
 import AuthenticatedPage from "./pages/AuthenticatedPage";
 import MainContentWrapper from "./components/MainContentWrapper";
 import { AuthProvider } from "./context/auth-context";
-import UnauthenticatedPage from "./pages/UnauthenticatedPage";
 import UnauthenticatedPageLayout from "./pages/layouts/UnauthenticatedPageLayout";
 import ForgotPassword from "./components/Form/ForgotPassword";
 import PasswordReset from "./components/Form/PasswordReset";
 import AuthenticatedPageLayout from "./pages/layouts/AuthenticatedPageLayout";
+import Start from "./pages/Start";
 
+console.log(Start);
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AuthProvider />}>
       <Route element={<UnauthenticatedPageLayout />}>
-        <Route path="/" element={<UnauthenticatedPage />} />
+        <Route path="/" element={<Start />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/passwordReset" element={<PasswordReset />} />
       </Route>
