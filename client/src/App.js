@@ -8,10 +8,10 @@ import AuthenticatedPage from "./pages/AuthenticatedPage";
 import MainContentWrapper from "./components/MainContentWrapper";
 import { AuthProvider } from "./context/auth-context";
 import UnauthenticatedPageLayout from "./pages/layouts/UnauthenticatedPageLayout";
-import ForgotPassword from "./components/Form/ForgotPassword";
 import PasswordReset from "./components/Form/PasswordReset";
 import AuthenticatedPageLayout from "./pages/layouts/AuthenticatedPageLayout";
 import Start from "./pages/Start";
+import ForgotPassword from "./pages/ForgotPassword";
 
 console.log(Start);
 const router = createBrowserRouter(
