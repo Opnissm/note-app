@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
 import { useOutletContext, useParams } from "react-router";
-import TinyEditor from "./Editor/TinyEditor";
+import TinyEditor from "./TinyEditor";
 import NoteTitle from "./NoteTitle";
-import { findNote } from "../utilities/utils";
-import api from "../axios_config/api";
+import { findNote } from "../../../utilities/utils";
+import api from "../../../axios_config/api";
 import Banner from "./Banner";
 import { useDispatch, useSelector } from "react-redux";
-import { updateNote } from "../features/note/noteSlice";
+import { updateNote } from "../../../features/note/noteSlice";
 
 function MainContentWrapper() {
   const { isDeleting, noteIdDelete } = useOutletContext();

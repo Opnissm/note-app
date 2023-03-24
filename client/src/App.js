@@ -5,15 +5,14 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import AuthenticatedPage from "./pages/AuthenticatedPage";
-import MainContentWrapper from "./components/MainContentWrapper";
+import MainContentWrapper from "./pages/Main/components/MainContentWrapper";
 import { AuthProvider } from "./context/auth-context";
-import UnauthenticatedPageLayout from "./pages/layouts/UnauthenticatedPageLayout";
-import PasswordReset from "./components/Form/PasswordReset";
-import AuthenticatedPageLayout from "./pages/layouts/AuthenticatedPageLayout";
 import Start from "./pages/Start";
 import ForgotPassword from "./pages/ForgotPassword";
+import PasswordReset from "./pages/PasswordReset";
+import UnauthenticatedPageLayout from "./layouts/UnauthenticatedPageLayout";
+import AuthenticatedPageLayout from "./layouts/AuthenticatedPageLayout";
 
-console.log(Start);
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AuthProvider />}>

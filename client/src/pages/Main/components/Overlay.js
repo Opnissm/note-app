@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import {
   handleDropdownIndex,
   handleShowRenameTitleDropdown,
-} from "../features/dropdown/dropdownSlice";
+} from "../../../features/dropdown/dropdownSlice";
 
 function Overlay({ handleShowHorizontalEllipsis, handleShowRenameTitleForm }) {
   const dispatch = useDispatch();

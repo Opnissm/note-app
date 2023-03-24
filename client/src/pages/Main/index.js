@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import NavigationBar from "./Main/components/NavigationBar";
+import NavigationBar from "../components/NavigationBar";
 import { useAuth } from "../context/auth-context";
 import { useDispatch, useSelector } from "react-redux";
 import { addNote, getNotes } from "../features/note/noteSlice";

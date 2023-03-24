@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import HorizontalEllipsis from "../assets/dots.png";
+import HorizontalEllipsis from "../../../assets/dots.png";
 import {
   handleDropdownIndex,
   handleDropdownTreshold,
-} from "../features/dropdown/dropdownSlice";
+} from "../../../features/dropdown/dropdownSlice";
 import DropdownList from "./DropdownList";
 import Overlay from "./Overlay";
 import RenameTitle from "./RenameTitle";

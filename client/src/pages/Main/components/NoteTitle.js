@@ -1,4 +1,4 @@
-import SaveButton from "./Button/SaveButton";
+import SaveButton from "./SaveButton";
 
 function NoteTitle({ title, isSaving, handleOnSave, currentNoteId }) {
   return (

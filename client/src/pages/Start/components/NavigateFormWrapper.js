@@ -1,7 +1,7 @@
 import React from "react";
-import CreateAccountButton from "../../../components/Button/CreateAccountButton";
-import ForgotPasswordButton from "../../../components/Button/ForgotPasswordButton";
-import LoginButton from "../../../components/Button/LoginButton";
+import CreateAccountButton from "./CreateAccountButton";
+import ForgotPasswordButton from "./ForgotPasswordButton";
+import LoginButton from "./LoginButton";
 
 function NavigateFormWrapper({ formDisplay, onFormDisplayChange }) {
   return (

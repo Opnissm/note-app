@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   handleDropdownIndex,
   handleShowRenameTitleDropdown,
-} from "../features/dropdown/dropdownSlice";
-import { updateNote } from "../features/note/noteSlice";
+} from "../../../features/dropdown/dropdownSlice";
+import { updateNote } from "../../../features/note/noteSlice";
 import Banner from "./Banner";
 
 function RenameTitle({

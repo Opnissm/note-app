@@ -1,8 +1,8 @@
 import { useDispatch } from "react-redux";
-import { useAuth } from "../context/auth-context";
-import LogoutButton from "./Button/LogoutButton";
+import { useAuth } from "../../../context/auth-context";
+import LogoutButton from "./LogoutButton";
 import NoteList from "./NoteList";
-import { addNote } from "../features/note/noteSlice";
+import { addNote } from "../../../features/note/noteSlice";
 import { useNavigate } from "react-router";
 
 function NavigationBar({ handleNoteDeleting, setNoteIdDelete }) {

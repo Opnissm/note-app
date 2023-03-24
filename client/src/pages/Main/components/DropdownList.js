@@ -1,14 +1,14 @@
 import React from "react";
-import api from "../axios_config/api";
-import EditIcon from "../assets/editing.png";
-import DeleteIcon from "../assets/delete.png";
+import api from "../../../axios_config/api";
+import EditIcon from "../../../assets/editing.png";
+import DeleteIcon from "../../../assets/delete.png";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { deleteNote } from "../features/note/noteSlice";
+import { deleteNote } from "../../../features/note/noteSlice";
 import {
   handleDropdownIndex,
   handleShowRenameTitleDropdown,
-} from "../features/dropdown/dropdownSlice";
+} from "../../../features/dropdown/dropdownSlice";
 function DropdownList({
   noteId,
   isOnTreshold,
