@@ -16,7 +16,7 @@ function AuthProvider() {
     status: "idle",
     isAuthenticated: false,
   });
-  const removeCookie = useCookies()[2];
+  const [cookie, , removeCookie] = useCookies(["token"]);
 
   function logout() {
     removeCookie(["token"], { path: "/" });
@@ -28,7 +28,11 @@ function AuthProvider() {
   useEffect(() => {
     setAuth({ status: "loading", user: null, isAuthenticated: false });
     api
-      .post("/auth")
+      .post("/auth", null, {
+        headers: {
+          Authorization: `Bearer ${cookie.token}`,
+        },
+      })
       .then((res) => {
         if (!res.data.authenticated) {
           return setAuth({
@@ -43,7 +47,7 @@ function AuthProvider() {
         return setAuth({ user, isAuthenticated: true, status: "resolved" });
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [cookie.token]);
 
   return (
     <AuthContext.Provider value={value}>

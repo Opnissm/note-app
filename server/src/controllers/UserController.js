@@ -172,9 +172,10 @@ exports.resetPasswordController = async (req, res, next) => {
 
 exports.isLoggedIn = async (req, res, next) => {
   try {
-    const { token: tokenInCookie } = req.cookies;
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
 
-    const valid = jwt.verify(tokenInCookie, process.env.SECRET_SIGNATURE);
+    const valid = jwt.verify(token, process.env.SECRET_SIGNATURE);
 
     if (!valid) throw new Error();
 
