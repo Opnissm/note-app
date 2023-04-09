@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import NavigationBar from "./Main/components/NavigationBar";
-import { useAuth } from "../context/auth-context";
+import NavigationBar from "./components/NavigationBar";
+import { useAuth } from "../../context/auth-context";
 import { useDispatch, useSelector } from "react-redux";
-import { addNote, getNotes } from "../features/note/noteSlice";
+import { addNote, getNotes } from "../../features/note/noteSlice";
 
 function AuthenticatedPage() {
-  const [noteIdDelete, setNoteIdDelete] = useState(null);
-  const [isDeleting, setIsDeleting] = useState(false);
   const navigate = useNavigate();
   const { user, isAuthenticated, setAuth } = useAuth();
   const data = useSelector((state) => {
     return state.note;
   });
   const dispatch = useDispatch();
-  function handleNoteDeleting(booleanVal) {
-    setIsDeleting(booleanVal);
-  }
+
   async function onAddNoteClick() {
     try {
       const { notes, errorMsg } = await dispatch(addNote()).unwrap();
@@ -24,7 +20,7 @@ function AuthenticatedPage() {
       console.log(errorMsg);
       if (notes.length === 1) {
         const firstNoteId = notes[0]._id;
-        navigate(`/note/${firstNoteId}`, { replace: true });
+        navigate(`/notes/${firstNoteId}`, { replace: true });
       }
     } catch (err) {
       console.log(err.message.contains("401"));
@@ -42,7 +38,7 @@ function AuthenticatedPage() {
         const { notes } = await dispatch(getNotes(user.userId)).unwrap();
         if (!notes.length) return;
         const firstNoteId = notes[0]._id;
-        navigate(`/note/${firstNoteId}`, { replace: true });
+        navigate(`/notes/${firstNoteId}`, { replace: true });
       } catch (err) {
         navigate("/", { replace: true });
       } finally {
@@ -56,18 +52,10 @@ function AuthenticatedPage() {
 
   return isAuthenticated ? (
     <div className="w-[80vw] mx-auto h-[600px] max-w-[63.125rem] flex flex-row">
-      <NavigationBar
-        setNoteIdDelete={setNoteIdDelete}
-        handleNoteDeleting={handleNoteDeleting}
-      />
+      <NavigationBar />
       <div className="flex flex-col bg-white w-[78%] rounded-t-md border relative">
         {data.notes.length && data.status === "resolved" ? (
-          <Outlet
-            context={{
-              isDeleting,
-              noteIdDelete,
-            }}
-          />
+          <Outlet />
         ) : !data.notes.length && data.status === "resolved" ? (
           <div className="flex flex-col items-center pt-20">
             <h1 className="text-2xl font-semibold">You don't have notes</h1>

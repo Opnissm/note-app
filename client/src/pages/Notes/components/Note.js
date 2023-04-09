@@ -10,7 +10,7 @@ import DropdownList from "./DropdownList";
 import Overlay from "./Overlay";
 import RenameTitle from "./RenameTitle";
 
-function Note({ id, title, idx, setNoteIdDelete, handleNoteDeleting }) {
+function Note({ id, title, idx }) {
   const [showHorizontalEllipsis, setShowHorizontalEllipsis] = useState(false);
   const { noteDropdownIndex, showRenameTitleDropdown, isOnTreshold } =
     useSelector((state) => state.dropdown);
@@ -21,7 +21,7 @@ function Note({ id, title, idx, setNoteIdDelete, handleNoteDeleting }) {
   }
   return (
     <NavLink
-      to={`/note/${id}`}
+      to={`/notes/${id}`}
       className={({ isActive }) =>
         `${
           isActive ? "ring-1 ring-amber-400 bg-green-50 font-semibold" : ""
@@ -58,8 +58,6 @@ function Note({ id, title, idx, setNoteIdDelete, handleNoteDeleting }) {
               noteId={id}
               isOnTreshold={isOnTreshold ? "bottom-7" : "top-8"}
               handleShowHorizontalEllipsis={handleShowHorizontalEllipsis}
-              handleNoteDeleting={handleNoteDeleting}
-              setNoteIdDelete={setNoteIdDelete}
             />
           )}
           <Overlay

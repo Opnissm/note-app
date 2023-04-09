@@ -63,7 +63,7 @@ function Login() {
   }
 
   if (isAuthenticated) {
-    return <Navigate to="/note" replace />;
+    return <Navigate to="/notes" replace />;
   }
 
   return (

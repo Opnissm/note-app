@@ -4,7 +4,6 @@ import React, { useEffect, useRef, useState } from "react";
 function TinyEditor({ noteContent, handleEditorRef }) {
   const [isEditorLoading, setIsEditorLoading] = useState(true);
   const tinyEditorRef = useRef(null);
-
   useEffect(() => {
     if (!tinyEditorRef.current) return;
     handleEditorRef(tinyEditorRef.current);

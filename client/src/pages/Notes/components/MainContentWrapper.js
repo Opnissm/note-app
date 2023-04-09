@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useOutletContext, useParams } from "react-router";
 import TinyEditor from "./TinyEditor";
-import NoteTitle from "./NoteTitle";
+import NoteHeader from "./NoteHeader";
 import { findNote } from "../../../utilities/utils";
 import api from "../../../axios_config/api";
 import Banner from "./Banner";
@@ -9,7 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateNote } from "../../../features/note/noteSlice";
 
 function MainContentWrapper() {
-  const { isDeleting, noteIdDelete } = useOutletContext();
+  // const { isDeleting, noteIdDelete } = useOutletContext();
+  const { noteIdDelete, isNoteDeleting } = useSelector(
+    (state) => state.note.noteDelete
+  );
   const [isSaving, setIsSaving] = useState(false);
   const [editorRef, setEditorRef] = useState(null);
   const { noteId } = useParams();
@@ -41,7 +44,7 @@ function MainContentWrapper() {
 
   return (
     <>
-      <NoteTitle
+      <NoteHeader
         title={note?.title}
         isSaving={isSaving}
         handleOnSave={handleOnSave}
@@ -51,9 +54,8 @@ function MainContentWrapper() {
       <TinyEditor
         noteContent={note?.content}
         handleEditorRef={handleEditorRef}
-        isDeleting={isDeleting}
       />
-      {isDeleting && noteIdDelete === noteId ? (
+      {isNoteDeleting && noteIdDelete === noteId ? (
         <Banner
           message="Deleting"
           className="text-center top-[10%] absolute bg-red-500 text-white w-full z-10"

@@ -1,9 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { useNavigate } from "react-router";
 import api from "../../axios_config/api";
 
 const initialState = {
   notes: [],
+  noteDelete: {
+    noteIdDelete: null,
+    isNoteDeleting: false,
+  },
   status: "idle",
 };
 
@@ -43,7 +46,14 @@ export const updateNote = createAsyncThunk(
 export const noteSlice = createSlice({
   name: "note",
   initialState,
-  reducers: {},
+  reducers: {
+    setNoteIdDelete: (state, action) => {
+      state.noteDelete.noteIdDelete = action.payload;
+    },
+    handleNoteDelete: (state, action) => {
+      state.noteDelete.isNoteDeleting = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getNotes.fulfilled, (state, action) => {
       state.notes = action.payload.notes;
@@ -67,4 +77,5 @@ export const noteSlice = createSlice({
   },
 });
 
+export const { setNoteIdDelete, handleNoteDelete } = noteSlice.actions;
 export default noteSlice.reducer;

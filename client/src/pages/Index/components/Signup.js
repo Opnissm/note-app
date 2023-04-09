@@ -64,7 +64,7 @@ function Signup() {
       }
       setCookie("token", token, { path: "/" });
       setAuth({ user, isAuthenticated: true, status: "resolved" });
-      navigate("/note", { replace: true });
+      navigate("/notes", { replace: true });
     } catch (err) {
       console.log(err);
     }

@@ -6,6 +6,7 @@ function NoteTitle({ title, isSaving, handleOnSave, currentNoteId }) {
       <h1 className="text-lg font-semibold text-ellipsis overflow-hidden w-[90%] whitespace-nowrap">
         {title}
       </h1>
+
       <SaveButton
         isSaving={isSaving}
         handleOnSave={handleOnSave}

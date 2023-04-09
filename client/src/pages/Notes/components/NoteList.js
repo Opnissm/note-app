@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Note from "./Note";
 
-function NoteList({ handleNoteDeleting, setNoteIdDelete }) {
+function NoteList() {
   const data = useSelector((state) => state.note);
   return (
     <>
@@ -16,8 +16,6 @@ function NoteList({ handleNoteDeleting, setNoteIdDelete }) {
             title={note.title}
             key={note._id}
             idx={idx}
-            handleNoteDeleting={handleNoteDeleting}
-            setNoteIdDelete={setNoteIdDelete}
           />
         ))
       ) : null}

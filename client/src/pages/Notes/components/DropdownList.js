@@ -4,36 +4,35 @@ import EditIcon from "../../../assets/editing.png";
 import DeleteIcon from "../../../assets/delete.png";
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { deleteNote } from "../../../features/note/noteSlice";
+import {
+  deleteNote,
+  handleNoteDelete,
+  setNoteIdDelete,
+} from "../../../features/note/noteSlice";
 import {
   handleDropdownIndex,
   handleShowRenameTitleDropdown,
 } from "../../../features/dropdown/dropdownSlice";
-function DropdownList({
-  noteId,
-  isOnTreshold,
-  handleNoteDeleting,
-  setNoteIdDelete,
-}) {
+function DropdownList({ noteId, isOnTreshold }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   async function onDeleteNote() {
     try {
-      handleNoteDeleting(true);
-      setNoteIdDelete(noteId);
+      dispatch(handleNoteDelete(true));
+      dispatch(setNoteIdDelete(noteId));
       const { notes } = await dispatch(deleteNote(noteId)).unwrap();
       if (!notes.length) {
-        navigate("/note", { replace: true });
+        navigate("/notes", { replace: true });
         return;
       }
       const firstNoteId = notes[0]._id;
-      navigate(`/note/${firstNoteId}`, { replace: true });
+      navigate(`/notes/${firstNoteId}`, { replace: true });
     } catch (err) {
       console.log(err);
     } finally {
-      handleNoteDeleting(false);
+      dispatch(handleNoteDelete(false));
       dispatch(handleDropdownIndex(null));
-      setNoteIdDelete(null);
+      dispatch(setNoteIdDelete(null));
     }
   }
 
