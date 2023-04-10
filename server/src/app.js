@@ -16,7 +16,7 @@ const port = 5000;
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://note-app-taupe.vercel.app/",
+  "https://note-app-taupe.vercel.app",
 ];
 app.use(
   cors({
