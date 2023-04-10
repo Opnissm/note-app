@@ -3,7 +3,7 @@ import FormManager from "./components/FormManager";
 import Logo from "../../assets/logo.png";
 import NavigateFormWrapper from "./components/NavigateFormWrapper";
 
-function Start() {
+function Index() {
   const [formDisplay, setFormDisplay] = useState("login");
 
   function handleFormDisplay(formName) {
@@ -34,4 +34,4 @@ function Start() {
     </>
   );
 }
-export default Start;
+export default Index;
