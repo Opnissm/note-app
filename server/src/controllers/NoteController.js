@@ -2,6 +2,7 @@ const Note = require("../models/note");
 
 exports.getNotes = async (req, res, next) => {
   try {
+    console.log("getting notes", req.cookies, req.user._id);
     const notes = await Note.find({ creator: req.user._id });
     return res.json({ notes });
   } catch (err) {
