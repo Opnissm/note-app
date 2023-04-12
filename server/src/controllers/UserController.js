@@ -10,6 +10,10 @@ const { generateJWT } = require("../utils/generateJWT");
 const {
   validatePasswordRequestToken,
 } = require("../utils/validatePasswordRequestToken");
+exports.logout = async (req, res, next) => {
+  res.clearCookie("token", { secure: true });
+  return res.json({ isSuccessful: true });
+};
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
   let errorMsg = null;
@@ -43,7 +47,9 @@ exports.login = async (req, res, next) => {
       username: usernameInDb,
       email: emailInDb,
     });
-
+    res.cookie("token", token, {
+      secure: false,
+    });
     return res.json({
       token,
       user: { username: usernameInDb, email: emailInDb, userId },
@@ -127,7 +133,9 @@ exports.signup = async (req, res, next) => {
       email: newUserEmail,
       username: newUserUsername,
     });
-
+    res.cookie("token", token, {
+      secure: true,
+    });
     return res.json({
       token,
       isSuccessful: true,
@@ -182,7 +190,6 @@ exports.isLoggedIn = async (req, res, next) => {
     const user = await User.findById(valid.userId);
 
     const { username, email, _id: userId } = user;
-
     return res.json({ user: { username, email, userId }, authenticated: true });
   } catch (err) {
     return res.json({
