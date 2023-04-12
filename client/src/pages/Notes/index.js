@@ -38,7 +38,6 @@ function AuthenticatedPage() {
     async function fetchNotes() {
       try {
         const { notes } = await dispatch(getNotes(user.userId)).unwrap();
-
         if (noteIdParam === undefined) {
           if (notes.length) {
             const firstNoteId = notes[0]._id;

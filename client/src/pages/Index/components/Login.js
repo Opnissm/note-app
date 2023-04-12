@@ -55,7 +55,6 @@ function Login() {
         setError("backendFormErrMsg", { message: errorMsg });
         return;
       }
-      setCookie("token", token, { path: "/" });
       setAuth({ user, isAuthenticated: true, status: "resolved" });
     } catch (err) {
       console.log(err);

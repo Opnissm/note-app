@@ -18,9 +18,12 @@ function AuthProvider() {
   });
   const [cookie, , removeCookie] = useCookies(["token"]);
 
-  function logout() {
-    removeCookie(["token"], { path: "/" });
-    setAuth({ user: null, authenticated: false, status: "resolved" });
+  console.log("the cookie", cookie);
+
+  async function logout() {
+    const { data } = await api.get("/logout");
+    data.isSuccessful &&
+      setAuth({ user: null, authenticated: false, status: "resolved" });
   }
 
   const value = { user, status, isAuthenticated, setAuth, logout };

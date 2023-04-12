@@ -62,7 +62,6 @@ function Signup() {
         }
         return;
       }
-      setCookie("token", token, { path: "/" });
       setAuth({ user, isAuthenticated: true, status: "resolved" });
       navigate("/notes", { replace: true });
     } catch (err) {
