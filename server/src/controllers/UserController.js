@@ -176,9 +176,8 @@ exports.resetPasswordController = async (req, res, next) => {
 
 exports.isLoggedIn = async (req, res, next) => {
   try {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
-    console.log("is logged in auth header and token", authHeader, token);
+    const { token } = req.cookies;
+    console.log("is logged in auth header and token", token);
     const valid = jwt.verify(token, process.env.SECRET_SIGNATURE);
     console.log("verify", valid);
     if (!valid) throw new Error();
