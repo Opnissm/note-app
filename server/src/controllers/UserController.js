@@ -48,7 +48,7 @@ exports.login = async (req, res, next) => {
       email: emailInDb,
     });
     res.cookie("token", token, {
-      secure: false,
+      secure: true,
     });
     return res.json({
       token,
