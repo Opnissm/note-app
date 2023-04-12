@@ -11,7 +11,7 @@ const {
   validatePasswordRequestToken,
 } = require("../utils/validatePasswordRequestToken");
 exports.logout = async (req, res, next) => {
-  res.clearCookie("token", { secure: true, path: "/" });
+  res.clearCookie("token");
   return res.json({ isSuccessful: true });
 };
 exports.login = async (req, res, next) => {
@@ -47,10 +47,7 @@ exports.login = async (req, res, next) => {
       username: usernameInDb,
       email: emailInDb,
     });
-    res.cookie("token", token, {
-      secure: true,
-      path: "/",
-    });
+    res.cookie("token", token);
     return res.json({
       token,
       user: { username: usernameInDb, email: emailInDb, userId },
@@ -134,10 +131,7 @@ exports.signup = async (req, res, next) => {
       email: newUserEmail,
       username: newUserUsername,
     });
-    res.cookie("token", token, {
-      secure: true,
-      path: "/",
-    });
+    res.cookie("token", token);
     return res.json({
       token,
       isSuccessful: true,
