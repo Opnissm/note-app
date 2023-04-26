@@ -31,11 +31,7 @@ function AuthProvider() {
   useEffect(() => {
     setAuth({ status: "loading", user: null, isAuthenticated: false });
     api
-      .post("/auth", null, {
-        headers: {
-          Authorization: `Bearer ${cookie.token}`,
-        },
-      })
+      .post("/auth")
       .then((res) => {
         if (!res.data.authenticated) {
           return setAuth({

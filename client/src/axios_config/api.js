@@ -8,7 +8,22 @@ if (process.env.NODE_ENV === "development") {
   url = "https://note-app-x68g.onrender.com";
 }
 
-export default axios.create({
+const instance = axios.create({
   baseURL: url,
   withCredentials: true,
 });
+
+instance.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response.status === 401) {
+      // User is not authenticated, redirect to unauthenticated page
+      window.location.href = "/";
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default instance;
